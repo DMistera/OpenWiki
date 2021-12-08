@@ -2,7 +2,7 @@
   <img class="card-img-top" [src]=image(this.id) alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">{{this.title}}</h5>
-    <p class="card-text">{{this.description || "Some quick example text to build on the card title and make up the bulk of the card's content."}}</p>
+    <p class="card-text line-clamp">{{this.description || "Some quick example text to build on the card title and make up the bulk of the card's content."}}</p>
     <div class="btn btn-primary" (click)="openWikiPage()" >Zobacz wiki</div>
   </div>
 </div>

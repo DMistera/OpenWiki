@@ -8,20 +8,24 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 import { UserComponent } from './components/user/user.component';
 import { WikiFormComponent } from './components/wiki-form/wiki-form.component';
 import { WikiComponent } from './components/wiki/wiki.component';
 import { AuthGuard } from './helpers';
 import { Role } from './models';
+import { ConfirmEmailComponent } from './components/auth/confirm-email/confirm-email.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'user',component: UserComponent, canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent },
+
+  { path: 'auth', redirectTo: 'auth/login', pathMatch: 'full'},
+  { path: 'auth/login', component: LoginComponent},
+  { path: 'auth/register', component: RegisterComponent },
+  { path: 'auth/confirm-email', component: ConfirmEmailComponent},
 
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard],
     children: [

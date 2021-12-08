@@ -9,8 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
 import { WikicardComponent } from './components/cards/wiki-card/wiki-card.component';
-import { RegisterComponent } from './components/register/register.component';
-import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 import { ErrorInterceptor} from '@app/helpers';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +25,7 @@ import { WikiEditComponent } from './components/dashboard-components/wiki-edit/w
 import { UserSummaryComponent } from './components/dashboard-components/user-summary/user-summary.component';
 import { NotFoundComponent } from './components/errors/not-found/not-found.component';
 import { ArticleCardComponent } from './components/cards/article-card/article-card.component';
+import { ConfirmEmailComponent } from './components/auth/confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ArticleCardComponent } from './components/cards/article-card/article-ca
     WikiEditComponent,
     UserSummaryComponent,
     NotFoundComponent,
-    ArticleCardComponent
+    ArticleCardComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

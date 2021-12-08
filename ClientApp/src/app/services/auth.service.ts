@@ -32,14 +32,24 @@ export class AuthService {
   public userLoggedIn: boolean;
 
   constructor(private router: Router, private http: HttpClient){
-    this.userSubject = new BehaviorSubject<User|null>(JSON.parse(localStorage.getItem('user')||"{}"));
+    this.userLoggedIn = false;
+    this.userSubject = new BehaviorSubject<User|null>(JSON.parse(localStorage.getItem('user')!));
     this.user = this.userSubject.asObservable();
-    // this.userLoggedIn = false;
+    this.userLoggedIn = this.isUserLoggedIn;
   }
 
   public get isUserLoggedIn(): boolean {
-    // console.log("user = ")
-    // console.log(this.user)
+    // let v;
+    // this.user.subscribe(x => {
+    //   console.log(x);
+    //   if(x==null){
+    //     v = false;
+    //   }else{
+    //     v = true;
+    //   }
+    // }).unsubscribe();
+    // console.log("isLoggedIn");
+    // console.log(v);
     return this.user!=null;
   }
 

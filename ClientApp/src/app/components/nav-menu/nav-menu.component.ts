@@ -36,7 +36,8 @@ export class NavMenuComponent {
     this.isUserMenuExpanded = !this.isUserMenuExpanded;
   }
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute,) {
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+    // this.isLoggedIn = false;// TODO zmiana sprawdzić
     this.authService.user.subscribe(x => {
       this.user = x;
       if(x==null){
@@ -45,7 +46,7 @@ export class NavMenuComponent {
         this.isLoggedIn = true;
       }
     });
-    this.isLoggedIn = this.authService.isUserLoggedIn;
+    // this.isLoggedIn = this.authService.isUserLoggedIn;
     this.collapseUserMenu();
   }
 
