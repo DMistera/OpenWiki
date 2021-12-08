@@ -1,0 +1,76 @@
+<!-- WikiForm Component-->
+<div class="col-md-12">
+  <div class="card card-container">
+    <!-- <div class="btn-group " role="group" aria-label="Basic example" *ngIf="!isSuccessful">
+      <button type="button" class="btn btn-outline-dark" (click)="navigateTo('/login')">Login</button>
+      <button type="button" class="btn btn-success disabled" (click)="navigateTo('/register')" >Register</button>
+    </div> -->
+    <form
+      *ngIf="!isSuccessful"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="name">Wiki name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          [(ngModel)]="form.name"
+          required
+          minlength="3"
+          #name="ngModel"
+        />
+        <div class="alert-danger" *ngIf="name.errors && f.submitted">
+          <div *ngIf="name.errors.required">Wiki name is required</div>
+          <div *ngIf="name.errors.minlength">
+            Wiki name must be at least 3 characters
+          </div>
+          <!-- <div *ngIf="name.errors.maxlength">
+            Username must be at most 20 characters
+          </div> -->
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="url">URL</label>
+        <input
+          type="url"
+          class="form-control"
+          name="url"
+          [(ngModel)]="form.url"
+          required
+          #url="ngModel"
+        />
+        <div class="alert-danger" *ngIf="url.errors && f.submitted">
+          <div *ngIf="url.errors.required">URL is required</div>
+          <!-- <div *ngIf="url.errors.url">
+            Email must be a valid url address
+          </div> -->
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="description"
+        class="form-control"
+        name="description"
+        [(ngModel)]="form.description"
+        #description="ngModel"
+        id="description" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">Create</button>
+      </div>
+
+      <div class="alert alert-warning" *ngIf="f.submitted && isWikiCreateFailed">
+        Creation of new Wiki failed!<br />{{ errorMessage }}
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isSuccessful">
+      New Wiki create!
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,112 @@
+<header class="mb-3">
+  <nav
+    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow"
+  >
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/']">OpenWiki</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target=".navbar-collapse"
+        aria-label="Toggle navigation"
+        [attr.aria-expanded]="isMenuExpanded"
+        (click)="toggleMenu()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+        [ngClass]="{ show: isMenuExpanded }"
+      >
+        <ul class="navbar-nav flex-grow" *ngIf=!isMenuExpanded>
+          <li class="nav-item" *ngIf="isDashboard()">
+            <button class="btn" [routerLink]="['/home']"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+              <i class="fa fa-home"></i>
+            </button>
+          </li>
+
+          <li class="nav-item" *ngIf="(isLoggedIn && !this.isDashboard())">
+            <button class="btn" [routerLink]="['/dashboard']" [routerLinkActive]="['active']">
+              <i class="fa fa-sliders"></i>
+            </button>
+          </li>
+
+          <li class="nav-item" *ngIf=isLoggedIn>
+            <button class="btn" (click)="toggleUserMenu()">
+              <i class="fa fa-user" *ngIf=isLoggedIn></i>
+              <i class="fa fa-sign-in" *ngIf=!isLoggedIn></i>
+            </button>
+          </li>
+
+          <li class="nav-item" *ngIf=!isLoggedIn>
+            <button class="btn" [routerLink]="['/user']" [routerLinkActive]="['active']">
+              <i class="fa fa-sign-in"></i>
+            </button>
+          </li>
+
+          <!-- <li class="nav-item" *ngIf=isLoggedIn [routerLinkActive]="['link-active']">
+            <button class="btn" (click)="logout()">
+              <i class="fa fa-sign-out"></i>
+            </button>
+          </li> -->
+        </ul>
+
+        <div class="list-group" *ngIf=isMenuExpanded>
+          <!-- <a class="list-group-item-action" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['/']">
+            <div class="align-items-center d-flex w-100 justify-content-between">
+              <div class="nav-item-title">Strona główna</div>
+              <fa-icon [icon]="faHome"></fa-icon>
+            </div>
+          </a> -->
+          <a class="list-group-item-action" [routerLinkActive]="['link-active']" [routerLink]="['/user']">
+            <div class="align-items-center d-flex w-100 justify-content-between">
+              <div class="nav-item-title">Użytkownik</div>
+              <fa-icon [icon]="faUser"></fa-icon>
+              <!-- TODO fix buttons  -->
+            </div>
+          </a>
+          <a class="list-group-item-action" [routerLinkActive]="['link-active']" *ngIf=isLoggedIn [routerLink]="['/dashboard']">
+            <div class="align-items-center d-flex w-100 justify-content-between">
+              <div class="nav-item-title">Zarządzanie</div>
+              <fa-icon [icon]="faSliders"></fa-icon>
+              <!-- TODO fix buttons  -->
+            </div>
+          </a>
+          <a class="list-group-item-action" [routerLinkActive]="['link-active']" *ngIf=isLoggedIn (click)="logout()">
+            <div class="align-items-center d-flex w-100 justify-content-between">
+              <div class="nav-item-title">Wyloguj</div>
+              <fa-icon [icon]="faLogout"></fa-icon>
+              <!-- TODO fix buttons  -->
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow bottom-nav" *ngIf="isLoggedIn&&isUserMenuExpanded">
+    <div class="container" *ngIf=isUserMenuExpanded>
+      <div class="container justify-content-start pl-0" *ngIf=this.user?.userName>
+        <div class="badge badge-dark p-2">
+          <i class="fa fa-user px-2 py-1"></i>
+        </div>
+        <div class="px-2">{{this.user?.userName}}</div>
+      </div>
+      <div class="container justify-content-start pl-0" *ngIf=this.user?.email>
+        <div class="badge badge-dark p-2">
+          <i class="fa fa-envelope  px-2 py-1"></i>
+        </div>
+        <div class="px-2">{{this.user?.email}}</div>
+      </div>
+      <div>
+        <button class="btn-light border rounded px-3 mx-2" (click)="logout()">
+          <i class="fa fa-sign-out"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+

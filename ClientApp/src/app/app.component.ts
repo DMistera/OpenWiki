@@ -1,0 +1,27 @@
+import { Component } from '@angular/core';
+import { User } from './models';
+import { AuthService } from './services';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  title = 'app';
+  isLoggedIn = false;
+  user: User | null;
+
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isUserLoggedIn;
+    this.authService.user.subscribe(x => {
+      this.user = x;
+      if(x==null){
+        this.isLoggedIn = false;
+      }else{
+        this.isLoggedIn = true;
+      }
+    });
+  }
+}

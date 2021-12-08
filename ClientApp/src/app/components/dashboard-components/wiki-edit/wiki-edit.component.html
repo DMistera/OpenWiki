@@ -1,0 +1,69 @@
+<div class="container pb-3 px-0 pt-0 d-inline-flex flex-row justify-content-between">
+  <button class="btn btn-light float-right" [routerLink]="['../']">
+    <i class="fa fa-arrow-left pr-2"></i>
+    Return to dashboard
+  </button>
+  <button class="btn btn-success float-right" form="ngForm" [disabled]="isWikiDataUpdated ? false : true">
+    <i class="fa fa-check-square pr-2" style="color:white"></i>
+    Save changes
+  </button>
+</div>
+<div class="jumbotron py-3 mb-3 d-flex flex-row align-items-center">
+  <i class="fa fa-object-group py-2 pr-4 m-0"></i>
+  <p class="p-0 m-0">{{wiki?.name}}</p>
+</div>
+
+<div class="card card-container p-3">
+  <form
+    *ngIf="!isSuccessful"
+    [formGroup]="form"
+    id="ngForm"
+    (ngSubmit)="updateWikiData()"
+  >
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="name"
+        formControlName="name"
+
+      />
+    </div>
+    <div class="form-group">
+      <label for="url">URL</label>
+      <input
+        type="url"
+        class="form-control"
+        name="url"
+        formControlName="url"
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea type="description"
+      class="form-control"
+      name="description"
+      id="description"
+      formControlName="description"
+      rows="5"></textarea>
+    </div>
+  </form>
+
+  <div class="alert alert-success m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isSuccessful">
+    Wiki updated!
+    <button class="btn btn-success float-right" (click)="resetForm()">
+      <i class="fa fa-close" style="color:white"></i>
+    </button>
+  </div>
+  <div class="alert alert-danger m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isFailed">
+    Wiki not updated!
+    <button class="btn btn-danger float-right" (click)="resetForm()">
+      <i class="fa fa-close" style="color:white"></i>
+    </button>
+  </div>
+</div>
+
+<div>
+  <!-- TODO articles list -->
+</div>

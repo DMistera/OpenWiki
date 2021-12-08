@@ -1,0 +1,13 @@
+
+<ul class="nav nav-pills nav-fill bg-light border rounded-top" *ngIf="isDashboardHome()">
+  <li class="nav-item">
+    <div class="nav-link" [routerLink]="['./']" [class.active]="currentPage==1" (click)="currentPage=1">Summary</div>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link" [routerLink]="['./wiki']" [class.active]="currentPage==2" (click)="currentPage=2">Wiki</div>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link" [routerLink]="['./article']" [class.active]="currentPage==3" (click)="currentPage=3">Article</div>
+  </li>
+</ul>
+<router-outlet></router-outlet>

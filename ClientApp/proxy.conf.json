@@ -1,0 +1,13 @@
+{
+  "/api": {
+    "target": "https://localhost:5001/api",
+    "secure": false,
+    "rejectUnauthorzied": true,
+    "withCredentials": true,
+    "strictSSL": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}
