@@ -8,5 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenWiki.Server.Entities {
     public class ApplicationUser : IdentityUser<long> {
+        public ICollection<Wiki> OwnedWikis { get; set; }
+        public ICollection<Wiki> MaintainedWikis { get; set; }
     }
 }

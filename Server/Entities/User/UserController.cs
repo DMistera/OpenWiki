@@ -23,13 +23,13 @@ namespace OpenWiki.Server.Entities {
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApplicationUser>> GetUser() {
+        public async Task<ActionResult<ApplicationUserDTO>> GetUser() {
             var user = await userManager.GetUserAsync(User);
             if (user == null) {
                 return NoContent();
             } 
             else {
-                return Ok( user );
+                return Ok( new ApplicationUserDTO(user) );
             }
         }
 

@@ -27,39 +27,42 @@ namespace OpenWiki.Server.Entities
 
         // GET: api/Wiki
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Wiki>>> GetWikis(long userID)
+        public async Task<ActionResult<IEnumerable<WikiDTO>>> GetWikis(long ownerID)
         {
-            IQueryable<Wiki> query = dbContext.Wikis.Include(o => o.Owner);
-            if(userID > 0) {
-                query = query.Where(o => o.Owner.Id == userID);
+            IQueryable<Wiki> query = dbContext.Wikis
+                .Include(o => o.Owner)
+                .Include(o => o.Maintainers);
+            if(ownerID > 0) {
+                query = query.Where(o => o.Owner.Id == ownerID);
             }
-            return await query.ToListAsync();
+            var queryResult = await query.ToListAsync();
+            return Ok(queryResult.Select(wiki => new WikiDTO(wiki)));
         }
 
         // GET: api/Wiki/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Wiki>> GetWiki(long id)
+        public async Task<ActionResult<WikiDTO>> GetWiki(long id)
         {
-            var wiki = await dbContext.Wikis.Include(o => o.Owner).FirstOrDefaultAsync(i => i.ID == id);
+            var wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.ID == id);
 
             if (wiki == null)
             {
                 return NotFound();
             }
 
-            return wiki;
+            return new WikiDTO(wiki);
         }
 
         // GET: api/Wiki/5
         [HttpGet("url/{url}")]
-        public async Task<ActionResult<Wiki>> GetWikiByURL(string url) {
-            var wiki = await dbContext.Wikis.Include(o => o.Owner).FirstOrDefaultAsync(i => i.URL == url);
+        public async Task<ActionResult<WikiDTO>> GetWikiByURL(string url) {
+            var wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.URL == url);
 
             if (wiki == null) {
                 return NotFound();
             }
 
-            return wiki;
+            return new WikiDTO(wiki);
         }
 
         // PUT: api/Wiki/5
@@ -67,25 +70,19 @@ namespace OpenWiki.Server.Entities
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWiki(long id, WikiPostPutModel wikiPostPutModel)
         {
-            Wiki wiki = dbContext.Wikis.Find(id);
+            Wiki wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.ID == id);
+            if (wiki == null) {
+                return NotFound();
+            }
+            ApplicationUser user = await userManager.GetUserAsync(User);
+            if (!wiki.CanBeModifiedBy(user)) {
+                ModelState.AddModelError("NotPermitted", "User does not have necessary role");
+                ValidationProblem(ModelState);
+            }
             wikiPostPutModel.UpdateWiki(wiki);
             dbContext.Entry(wiki).State = EntityState.Modified;
 
-            try
-            {
-                await dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WikiExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await dbContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -94,7 +91,7 @@ namespace OpenWiki.Server.Entities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Wiki>> PostWiki(WikiPostPutModel wikiPostPutModel)
+        public async Task<ActionResult<WikiDTO>> PostWiki(WikiPostPutModel wikiPostPutModel)
         {
             Wiki wiki = wikiPostPutModel.CreateWiki();
             ApplicationUser user = await userManager.GetUserAsync(User);
@@ -102,7 +99,7 @@ namespace OpenWiki.Server.Entities
             dbContext.Wikis.Add(wiki);
             await dbContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetWiki", new { id = wiki.ID }, wiki);
+            return CreatedAtAction("GetWiki", new { id = wiki.ID }, new WikiDTO(wiki));
         }
 
         // DELETE: api/Wiki/5
@@ -119,11 +116,6 @@ namespace OpenWiki.Server.Entities
             await dbContext.SaveChangesAsync();
 
             return Ok();
-        }
-
-        private bool WikiExists(long id)
-        {
-            return dbContext.Wikis.Any(e => e.ID == id);
         }
     }
 }

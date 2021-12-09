@@ -25,6 +25,15 @@ namespace OpenWiki.Server {
             builder.Entity<Wiki>()
                 .HasIndex(u => u.URL)
                 .IsUnique();
+
+            builder.Entity<Wiki>()
+                .HasMany(wiki => wiki.Maintainers)
+                .WithMany(user => user.MaintainedWikis)
+                .UsingEntity(j => j.ToTable("Maintenence"));
+
+            builder.Entity<Wiki>()
+                .HasOne(wiki => wiki.Owner)
+                .WithMany(user => user.OwnedWikis);
         }
 
         public DbSet<Article> Articles { get; set; }

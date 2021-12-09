@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenWiki.Server;
 
 namespace OpenWiki.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211208231646_Maintainer")]
+    partial class Maintainer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ApplicationUserWiki", b =>
-                {
-                    b.Property<long>("MaintainedWikisID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("MaintainersId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("MaintainedWikisID", "MaintainersId");
-
-                    b.HasIndex("MaintainersId");
-
-                    b.ToTable("Maintenence");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
@@ -218,6 +205,9 @@ namespace OpenWiki.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<long?>("WikiID")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -227,6 +217,8 @@ namespace OpenWiki.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("WikiID");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -323,21 +315,6 @@ namespace OpenWiki.Migrations
                     b.ToTable("Wikis");
                 });
 
-            modelBuilder.Entity("ApplicationUserWiki", b =>
-                {
-                    b.HasOne("OpenWiki.Server.Entities.Wiki", null)
-                        .WithMany()
-                        .HasForeignKey("MaintainedWikisID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OpenWiki.Server.Entities.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("MaintainersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("OpenWiki.Server.Entities.ApplicationRole", null)
@@ -389,6 +366,13 @@ namespace OpenWiki.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OpenWiki.Server.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("OpenWiki.Server.Entities.Wiki", null)
+                        .WithMany("Maintainers")
+                        .HasForeignKey("WikiID");
+                });
+
             modelBuilder.Entity("OpenWiki.Server.Entities.Article", b =>
                 {
                     b.HasOne("OpenWiki.Server.Entities.ApplicationUser", "Creator")
@@ -420,20 +404,20 @@ namespace OpenWiki.Migrations
             modelBuilder.Entity("OpenWiki.Server.Entities.Wiki", b =>
                 {
                     b.HasOne("OpenWiki.Server.Entities.ApplicationUser", "Owner")
-                        .WithMany("OwnedWikis")
+                        .WithMany()
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("OpenWiki.Server.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("OwnedWikis");
-                });
-
             modelBuilder.Entity("OpenWiki.Server.Entities.Article", b =>
                 {
                     b.Navigation("Sections");
+                });
+
+            modelBuilder.Entity("OpenWiki.Server.Entities.Wiki", b =>
+                {
+                    b.Navigation("Maintainers");
                 });
 #pragma warning restore 612, 618
         }
