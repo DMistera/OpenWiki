@@ -17,12 +17,8 @@ namespace OpenWiki.Server.Entities {
             URL = wiki.URL;
             Name = wiki.Name;
             Description = wiki.Description;
-            if(wiki.Owner != null) {
-                Owner = new ApplicationUserDTO(wiki.Owner);
-            }
-            if (wiki.Maintainers != null) {
-                Maintainers = wiki.Maintainers.Select(maintainer => new ApplicationUserDTO(maintainer));
-            }
+            Owner = wiki.Owner != null ? new ApplicationUserDTO(wiki.Owner) : null;
+            Maintainers = wiki.Maintainers?.Select(maintainer => new ApplicationUserDTO(maintainer));
         }
     }
 }

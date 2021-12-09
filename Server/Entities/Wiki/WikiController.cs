@@ -77,9 +77,32 @@ namespace OpenWiki.Server.Entities
             ApplicationUser user = await userManager.GetUserAsync(User);
             if (!wiki.CanBeModifiedBy(user)) {
                 ModelState.AddModelError("NotPermitted", "User does not have necessary role");
-                ValidationProblem(ModelState);
+                return ValidationProblem(ModelState);
             }
             wikiPostPutModel.UpdateWiki(wiki);
+            dbContext.Entry(wiki).State = EntityState.Modified;
+
+            await dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("maintainer/{id}")]
+        public async Task<IActionResult> AddMaintainer(long id, [FromBody] long maintainerID) {
+            Wiki wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.ID == id);
+            if (wiki == null) {
+                return NotFound();
+            }
+            ApplicationUser user = await userManager.GetUserAsync(User);
+            if (!wiki.CanBeModifiedBy(user)) {
+                ModelState.AddModelError("NotPermitted", "User does not have necessary role");
+                return ValidationProblem(ModelState);
+            }
+            ApplicationUser maintainer = await userManager.FindByIdAsync(maintainerID.ToString()); // why is it correct in asp.net?
+            if(maintainer == null) {
+                return NotFound("Maintainer not found");
+            }
+            wiki.Maintainers.Add(maintainer);
             dbContext.Entry(wiki).State = EntityState.Modified;
 
             await dbContext.SaveChangesAsync();

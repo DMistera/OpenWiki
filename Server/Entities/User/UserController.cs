@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OpenWiki.Server.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,33 @@ namespace OpenWiki.Server.Entities {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly EmailSender emailSender;
+        private readonly ApplicationDbContext dbContext;
 
-        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, EmailSender emailSender) {
+        public UserController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, EmailSender emailSender, ApplicationDbContext dbContext) {
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.emailSender = emailSender;
+            this.dbContext = dbContext;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApplicationUserDTO>> GetUser() {
+        public async Task<ActionResult<ApplicationUserDTO>> GetLoggedUser() {
             var user = await userManager.GetUserAsync(User);
             if (user == null) {
                 return NoContent();
-            } 
-            else {
-                return Ok( new ApplicationUserDTO(user) );
+            } else {
+                var userWithWikis = await dbContext.Users.Include(user => user.OwnedWikis).Include(user => user.MaintainedWikis).FirstOrDefaultAsync(u => u.Id == user.Id);
+                return Ok(new ApplicationUserDTO(userWithWikis));
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ApplicationUserDTO>> GetUser(long id) {
+            var user = await dbContext.Users.Include(user => user.OwnedWikis).Include(user => user.MaintainedWikis).FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null) {
+                return NotFound();
+            } else {
+                return Ok(new ApplicationUserDTO(user));
             }
         }
 
@@ -49,7 +62,7 @@ namespace OpenWiki.Server.Entities {
             return ValidationProblem(ModelState);
         }
 
-        [HttpPost("Logout")]
+        [HttpDelete("Logout")]
         public async Task<IActionResult> Logout() {
             await signInManager.SignOutAsync();
             return Ok();
