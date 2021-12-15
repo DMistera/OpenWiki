@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenWiki.Server.Utils;
@@ -59,7 +60,7 @@ namespace OpenWiki.Server.Entities {
             } else {
                 ModelState.AddModelError("InvalidLogin", "Login or Password is incorrect");
             }
-            return ValidationProblem(ModelState);
+            return Unauthorized(new ValidationResultModel(ModelState, StatusCodes.Status401Unauthorized));
         }
 
         [HttpDelete("Logout")]

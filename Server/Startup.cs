@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using OpenWiki.Server.Entities;
 using OpenWiki.Server.Utils;
 using System;
+using System.Net.Mime;
 
 namespace OpenWiki.Server {
     public class Startup {
@@ -18,7 +19,15 @@ namespace OpenWiki.Server {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var result = new ValidationFailedResult(context.ModelState);
+                    result.ContentTypes.Add(MediaTypeNames.Application.Json);
+                    return result;
+                };
+            });
             // In production, the Angular files will be served from this directory
 
 
