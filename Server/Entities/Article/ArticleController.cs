@@ -27,7 +27,7 @@ namespace OpenWiki.Server.Entities
 
         // GET: api/Article
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticles(long wikiID, long userID)
+        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetArticles(long wikiID, long userID)
         {
             var query = PrepareArticlesQuery();
             if(wikiID > 0) {
@@ -36,12 +36,13 @@ namespace OpenWiki.Server.Entities
             if (userID > 0) {
                 query = query.Where(o => o.Creator.Id == userID);
             }
-            return await query.ToListAsync();
+            var queryResult = await query.ToListAsync();
+            return Ok(queryResult.Select(article => new ArticleDTO(article)));
         }
 
         // GET: api/Article/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Article>> GetArticle(long id)
+        public async Task<ActionResult<ArticleDTO>> GetArticle(long id)
         {
             var article = await PrepareArticlesQuery().FirstOrDefaultAsync(i => i.ID == id);
 
@@ -50,7 +51,7 @@ namespace OpenWiki.Server.Entities
                 return NotFound();
             }
 
-            return article;
+            return new ArticleDTO(article);
         }
 
         // PUT: api/Article/5
@@ -99,7 +100,7 @@ namespace OpenWiki.Server.Entities
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Article>> PostArticle(ArticlePostModel articlePostModel)
+        public async Task<ActionResult<ArticleDTO>> PostArticle(ArticlePostModel articlePostModel)
         {
             Article article = articlePostModel.CreateArticle();
             Wiki wiki = dbContext.Wikis.Find(articlePostModel.WikiID);
@@ -117,13 +118,13 @@ namespace OpenWiki.Server.Entities
             dbContext.Articles.Add(article);
             await dbContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetArticle", new { id = article.ID }, article);
+            return CreatedAtAction("GetArticle", new { id = article.ID }, new ArticleDTO(article));
         }
 
         // DELETE: api/Article/5
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Article>> DeleteArticle(long id)
+        public async Task<ActionResult<ArticleDTO>> DeleteArticle(long id)
         {
             var article = await dbContext.Articles.Include(o => o.Sections).FirstOrDefaultAsync(i => i.ID == id);
             if (article == null)
@@ -135,7 +136,7 @@ namespace OpenWiki.Server.Entities
             dbContext.Articles.Remove(article);
             await dbContext.SaveChangesAsync();
 
-            return article;
+            return new ArticleDTO(article);
         }
 
         private bool ArticleExists(long id)
