@@ -22,9 +22,11 @@ namespace OpenWiki.Server.Entities
             ID = article.ID;
             Title = article.Title;
             Abstract = article.Abstract;
-            Wiki = new WikiDTO(article.Wiki);
-            Wiki.Owner = null;
-            Wiki.Maintainers = null;
+            Wiki = article.Wiki == null ? null : new WikiDTO(article.Wiki)
+            {
+                Owner = null,
+                Maintainers = null
+            };
             Sections = article.Sections;
             Creator = article.Creator == null ? null : new ApplicationUserDTO(article.Creator);
             Modifier = article.Modifier == null ? null : new ApplicationUserDTO(article.Modifier);
