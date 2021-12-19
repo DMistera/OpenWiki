@@ -1,0 +1,40 @@
+<body class="container" *ngIf="article!=null" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+    <div class="jumbotron py-4 px-0">
+        <h1 class="p-3">
+            Article:
+            {{article.title}}
+        </h1>
+        <hr/>
+        <div class="container px-3">
+            {{article.abstract}}
+        </div>
+    </div>
+    <div class="row">
+        <!-- TODO scroll spy -->
+        <!-- <nav class="col-sm-2" id="myScrollspy">
+            <ul class="nav nav-pills nav-stacked" *ngFor="let section of article.sections; let i=index">
+                <li class="nav-item ">
+                    <a class="nav-link" href="{{url}}#section{{i}}">
+                        Section {{i}}
+                    </a>
+                </li>
+            </ul> 
+        </nav> -->
+        <!-- <div class="col-sm-10"> -->
+            <div class="container">
+                <div *ngFor="let section of article.sections; let i=index">
+                    <div id="section{{i}}">
+                        <h5>
+                            {{section.title}} {{i}}
+                        </h5>
+                        <p>
+                            {{section.content}}
+                        </p>
+                        <hr/>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</body>
+
