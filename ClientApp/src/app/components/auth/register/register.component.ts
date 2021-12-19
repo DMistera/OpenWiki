@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
         // console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
-        this.router.navigate(['/login'], { queryParams: { returnUrl: this.returnUrl } });
+        this.router.navigate(['auth/login'], { queryParams: { returnUrl: this.returnUrl } });
       },
       err => {
         // console.log(err);

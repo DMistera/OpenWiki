@@ -42,11 +42,17 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
         console.log(this.returnUrl);
       },
-      err => {
-        console.log(err);
-        this.errorMessage = err.error;
+      error => {
+        console.log("error")
+        console.log(error);
+        if(error == "Unauthorized"){
+          this.router.navigate(["auth/confirm-email"], { queryParams: { returnUrl: "auth/login" } });
+        }
+        this.errorMessage = error.error;
         this.isSignInFailed = true;
       }
     );
   }
 }
+
+//TODO logout/login nie resetuje stanu strony
