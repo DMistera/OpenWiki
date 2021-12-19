@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Wiki } from '@app/models';
+import { Article, Wiki } from '@app/models';
 import {map} from 'rxjs/operators';
 
 const HTTP_OPTIONS = {
@@ -15,10 +15,10 @@ const HTTP_OPTIONS = {
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class DataService{
   constructor(private http: HttpClient) { }
 
-
+// ==================================================================================================
   fetchWiki(id?: any, url?: string, userId?: number){
     if(id != null){
       return this.http.get<any>(`/api/Wiki/${id}`, HTTP_OPTIONS).pipe(map(data => {
@@ -66,4 +66,66 @@ export class DataService {
       return data;
     }));
   }
+
+// ==================================================================================================
+  fetchArticles(wikiId?: number, userId?: number){
+    if(userId != null){
+      return this.http.get<any>(`/api/Article?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesbyUser status code:", data.status);
+        return data;
+      }));
+    }
+    else if(wikiId != null){
+      return this.http.get<any>(`/api/Article?wikiID=${wikiId}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesbyWiki status code:", data.status);
+        return data;
+      }));
+    }
+    else{
+      return this.http.get<any>(`/api/Article/`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchAllArticles status code:", data.status);
+        return data;
+      }));
+    }
+  }
+
+  fetchArticle(id?: number, url?: string){
+    if(id != null){
+      return this.http.get<any>(`/api/Article/${id}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticle status code:", data.status);
+        return data;
+      }));
+    }
+    else if(url != null){
+      return this.http.get<any>(`/api/Article?url=${url}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlebyUrl status code:", data.status);
+        return data;
+      }));
+    }
+    else return null;
+  }
+
+  createArticle(article: Article){
+    console.log(JSON.stringify(article));
+    return this.http.post<any>(`/api/Article`, JSON.stringify(article), HTTP_OPTIONS).pipe(map(data => {
+      console.log("createArticle status code:", data.status);
+      return data;
+    }));
+  }
+
+  deleteArticle(id: number){
+    return this.http.delete<any>(`/api/Article/${id}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("deleteArticle status code:", data.status);
+      return data;
+    }));
+  }
+
+  editArticle(article: Article){
+    return this.http.put<any>(`/api/Article/${article.id}`, JSON.stringify(article), HTTP_OPTIONS).pipe(map(data => {
+      console.log("updateArticle status code:", data.status);
+      return data;
+    }));
+  }
+// ==================================================================================================
+
 }
