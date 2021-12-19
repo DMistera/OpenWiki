@@ -1,3 +1,4 @@
+import { Section } from "./Section";
 import { User } from "./User";
 import { Wiki } from "./Wiki";
 
@@ -6,16 +7,31 @@ export class Article {
   title: string;
   abstract: string;
   wiki: Wiki;
+  wikiID: number;
+  sections: Section[];
   creator: User;
   creationDate: string;
 
 
   constructor(object: any) {
-    this.id = object?.id || 0;
+    if(object.id != null){
+      this.id = object.id;
+    }
     this.title = object?.title || '';
     this.abstract = object?.abstract || '';
-    this.wiki = new Wiki(object.wiki);
-    this.creator = new User(object.owner);
-    this.creationDate = object?.creationDate || '';
+    if(object.wiki != null){
+      this.wiki = new Wiki(object.wiki);
+    }
+    this.wikiID = object?.wikiID || -1;
+    if(object.owner != null){
+      this.creator = new User(object.owner);
+    }
+    if(object.creationDate != null){
+      this.creationDate = object.creationDate
+    }
+    this.sections = [];
+    object?.sections?.forEach((obj:string) => { this.sections.push(new Section(obj)); })||[];
   }
+
+
 }
