@@ -32,6 +32,7 @@ import { ConfirmEmailDefaultComponent } from './components/auth/confirm-email-co
 import { ArticleFormComponent } from './components/forms/article-form/article-form.component';
 import { ArticleComponent } from './components/article/article.component';
 import { ArticleEditComponent } from './components/dashboard-components/article-edit/article-edit.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -66,10 +67,11 @@ import { ArticleEditComponent } from './components/dashboard-components/article-
     AppRoutingModule,
     ReactiveFormsModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    LayoutModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
