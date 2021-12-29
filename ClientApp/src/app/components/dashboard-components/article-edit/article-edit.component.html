@@ -1,1 +1,131 @@
-<p>article-edit works!</p>
+<div class="container pb-3 px-0 pt-0 d-inline-flex flex-row justify-content-between">
+    <button class="btn btn-light float-right" [routerLink]="['../../']">
+        <i class="fa fa-arrow-left pr-2"></i>
+        Return to dashboard
+    </button>
+    <button class="btn btn-success float-right" form="ngForm" [disabled]="isArticleDataUpdated ? false : true">
+        <i class="fa fa-check-square pr-2" style="color:white"></i>
+        Save changes
+    </button>
+</div>
+
+<div class="jumbotron py-3 mb-3 d-flex flex-row align-items-center">
+    <i class="fa fa-object-group py-2 pr-4 m-0"></i>
+    <p class="p-0 m-0">Edit article form</p>
+  </div>
+    
+  <div class="card card-container p-0">
+    <form
+      *ngIf="!isSuccessful"
+      [formGroup]="form"
+      id="ngForm"
+      (ngSubmit)="updateArticle()"
+    >
+      <div class="px-3 pt-3">
+        <div class="form-group">
+          <label for="title" [ngClass]="{'error': submitted && form.controls.title.errors}">
+            Title
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            name="title"
+            formControlName="title"
+            [ngClass]="{'error': submitted && form.controls.title.errors}"
+          />
+          <div class="text-danger" *ngIf="submitted && form.controls.title.errors">
+            <small><sup>*</sup>Enter article title</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="abstract" [ngClass]="{'error': submitted && form.controls.abstract.errors}">
+            Abstract
+          </label>
+          <textarea type="abstract"
+          class="form-control"
+          name="abstract"
+          id="abstract"
+          formControlName="abstract"
+          rows="5"
+          [ngClass]="{'error': submitted && form.controls.abstract.errors}"
+          ></textarea>
+          <div class="invalid-feedback" *ngIf="submitted && form.controls.abstract.errors">
+            <sup>*</sup>Enter article abstract
+          </div>
+        </div>
+      </div>
+      <!--TODO connect to form -->
+      <!-- <div class="form-check mx-3">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+        <label class="form-check-label" for="flexCheckChecked">
+          Article visibility 
+        </label>
+      </div> -->
+      <hr/>
+  
+      <div formArrayName="sections">
+        <div *ngIf="sections.length>0">
+          <!-- class="card card-container px-3 pb-3 pt-3 mb-3 bg-white"  -->
+          <div  *ngFor="let section of sections.controls; let i=index">
+            <div class="form-group px-3" [formGroupName]="i">
+              <div class="form-group">
+                <div class="flex-grow-1 d-flex flex-row align-items-center justify-content-between">
+                  <label for="title p-10"  [ngClass]="{'error': submitted && getSectionValidity(i).title.errors}">
+                    Section {{i}}
+                  </label>
+                  <button class="btn" (click)="removeSection(i)" *ngIf="i!=0" style="z-index: 100; margin-top: -1rem;">
+                    <i class="fa fa-minus" style="color:red"></i>
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="title-{{ i }}"
+                  formControlName="title"
+                  [ngClass]="{'error': submitted && getSectionValidity(i).title.errors}"
+                />
+                <div class="invalid-feedback" *ngIf="submitted && getSectionValidity(i).title.errors">
+                  <sup>*</sup>Enter section title
+                </div>
+              </div>
+              <label for="section" [ngClass]="{'error': submitted && getSectionValidity(i).content.errors}">
+                Content
+              </label>
+              <textarea type="section"
+              class="form-control"
+              name="content-{{ i }}"
+              id="content-{{ i }}"
+              formControlName="content"
+              rows="5"
+              [ngClass]="{'error': submitted && getSectionValidity(i).content.errors}"
+              ></textarea>
+              <div class="invalid-feedback" *ngIf="submitted && getSectionValidity(i).content.errors">
+                <sup>*</sup>Enter section content
+              </div>
+            </div>
+            <hr/>
+          </div>
+        </div>
+        
+      </div> 
+    </form>
+    <button class="btn btn-outline-success mx-3 mb-3" (click)="addSection()" *ngIf="!isSuccessful">
+      <i class="fa fa-plus pr-2" ></i>
+      Add section
+    </button>
+
+  
+    <div class="alert alert-success m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isSuccessful">
+      article updated!
+      <button class="btn btn-success float-right" (click)="resetForm()">
+        <i class="fa fa-close" style="color:white"></i>
+      </button>
+    </div>
+    <div class="alert alert-danger m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isFailed">
+      article not updated!
+      <button class="btn btn-danger float-right" (click)="resetForm()">
+        <i class="fa fa-close" style="color:white"></i>
+      </button>
+    </div>
+  </div>
+  
