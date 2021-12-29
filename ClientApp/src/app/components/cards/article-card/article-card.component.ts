@@ -10,8 +10,8 @@ export class ArticleCardComponent implements OnInit {
   @Input()title = 'title';
   @Input()id = 1;
   @Input()description = 'description';
-  @Input()wiki_id = 0;
-  @Input()url = 'url';
+  @Input()wiki_url = '';
+  @Input()url = '';
 
   image = (n:any)=>`https://picsum.photos/id/${n}/900/500`;
 
@@ -22,11 +22,11 @@ export class ArticleCardComponent implements OnInit {
   }
 
   openWikiPage(): void{
-    this.router.navigate(['wiki/'+this.wiki_id+'/article/'+this.id],{
+    this.router.navigate(['wiki/'+this.wiki_url+'/article/'+this.id],{
       state: {
-        wiki_id: this.wiki_id,
+        wiki_url: this.wiki_url,
         article_id: this.id,
-        return_url: "wiki/"+this.wiki_id
+        return_url: "wiki/"+this.wiki_url
       }
     });
   }

@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     const user = this.isLoggedIn;
     if (user) {
       // check if route is restricted by role
-      if (route.data.roles ) {
+      if (route.data.roles) {
         // role not authorised so redirect to home page
         this.router.navigate(['/user']);
         return false;
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
     }
 
     // not logged in so redirect to login page with the return url
-    this.router.navigate(['auth/login'], { queryParams: { returnUrl: state.url } });
+    this.router.navigate(['auth/login'], { queryParams: { returnUrl: '/' } });
     return false;
   }
 }

@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'auth/register', component: RegisterComponent },
   { path: 'auth/confirm-email', component: ConfirmEmailComponent,
     children: [
-      { path: '', component: ConfirmEmailDefaultComponent},
+      { path: '', redirectTo: 'failure', pathMatch: 'full'},
       { path: 'success', component: ConfirmEmailSuccessComponent},
       { path: 'failure', component: ConfirmEmailFailureComponent},
     ]
@@ -46,21 +46,22 @@ const routes: Routes = [
       { path: '', redirectTo: 'summary', pathMatch: 'full'},
       { path: 'summary', component: UserSummaryComponent, canActivate: [AuthGuard]},
       { path: 'wiki', component: WikiListComponent, canActivate: [AuthGuard]},
-      { path: 'wiki/:id', component: WikiEditComponent, canActivate: [AuthGuard]},
+      { path: 'wiki/:wikiURL', component: WikiEditComponent, canActivate: [AuthGuard]},
+      { path: 'wiki/:wikiURL/article/:articleId', component: ArticleEditComponent },
 
       { path: 'article', component: ArticleListComponent, canActivate: [AuthGuard]},
-      { path: 'article/:id', component: ArticleEditComponent, canActivate: [AuthGuard]},
+      { path: 'article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
     ]
   },
 
-  { path: 'wiki/:wikiId/article/:articleId', component: ArticleComponent },
-  { path: 'wiki/:wikiId/article-form', component: ArticleFormComponent },
+  { path: 'wiki/:wikiURL/article/:articleId', component: ArticleComponent },
+  { path: 'wiki/:wikiURL/article-form', component: ArticleFormComponent },
 
-  { path: 'wiki/:wikiId', component: WikiComponent },
+  { path: 'wiki/:wikiURL', component: WikiComponent },
   { path: 'wiki-form', component: WikiFormComponent },
 
   { path: '404', component: NotFoundComponent },
-  // { path: '**', redirectTo: '404' }
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({
