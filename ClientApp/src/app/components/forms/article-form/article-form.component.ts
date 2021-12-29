@@ -54,7 +54,6 @@ export class ArticleFormComponent implements OnInit {
 
   onChanges(): void {
     this.form.valueChanges.subscribe(val => {
-      this.article.wikiID = this.wiki_id
       this.article.title = val.title;
       this.article.abstract = val.abstract;
       this.article.sections = [];
