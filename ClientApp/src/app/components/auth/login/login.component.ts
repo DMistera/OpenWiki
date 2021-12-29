@@ -38,9 +38,7 @@ export class LoginComponent implements OnInit {
         console.log(data);
         this.isSuccessful = true;
         this.isSignInFailed = false;
-
-        this.router.navigate([this.returnUrl]);
-        console.log(this.returnUrl);
+        this.redirectAfter();
       },
       error => {
         console.log("error")
@@ -48,10 +46,17 @@ export class LoginComponent implements OnInit {
         if(error == "Unauthorized"){
           this.router.navigate(["auth/confirm-email"], { queryParams: { returnUrl: "auth/login" } });
         }
-        this.errorMessage = error.error;
+        this.errorMessage = JSON.stringify(error.error.error[0].message);
         this.isSignInFailed = true;
       }
     );
+  }
+
+  redirectAfter(){
+    setTimeout( ()=>{
+      this.router.navigate([this.returnUrl]);
+      console.log(this.returnUrl);
+    }, 4000)
   }
 }
 
