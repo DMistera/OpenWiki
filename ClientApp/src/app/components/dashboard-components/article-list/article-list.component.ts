@@ -8,7 +8,7 @@ import { AuthService, DataService } from '@app/services';
   styleUrls: ['./article-list.component.scss']
 })
 export class ArticleListComponent implements OnInit {
-  articleList = [] as  any;
+  articleList = [] as any;
   isLoadingData: boolean;
   userId: number;
 
@@ -17,7 +17,7 @@ export class ArticleListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user.subscribe(x => {if(x!=null){this.userId= x.id}}).unsubscribe();
     this.isLoadingData = true;
-    this.dataService.fetchArticles(undefined, this.userId).subscribe((data: any) => {
+    this.dataService.fetchArticlesByUserId(this.userId).subscribe((data: any) => {
       for (let e in data.body){
         let tempArticle = new Article(data.body[e]);
         this.articleList.push(tempArticle);
@@ -33,7 +33,7 @@ export class ArticleListComponent implements OnInit {
 
 
   openArticleEditingPage(){
-
+    
   }
 
 

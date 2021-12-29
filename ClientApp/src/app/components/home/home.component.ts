@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
     this.isLoadingResults = true;
-    this.dataService.fetchWiki().subscribe((data: any) => {
+    this.dataService.fetchWikis().subscribe((data: any) => {
       for (let e in data.body){
         let tempWiki = new Wiki(data.body[e]);
         this.data.push(tempWiki);

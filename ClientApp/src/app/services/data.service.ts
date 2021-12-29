@@ -19,22 +19,10 @@ export class DataService{
   constructor(private http: HttpClient) { }
 
 // ==================================================================================================
-  fetchWiki(id?: any, url?: string, userId?: number){
-    if(id != null){
-      return this.http.get<any>(`/api/Wiki/${id}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchWiki status code:", data.status);
-        return data;
-      }));
-    }
-    else if(url != null){
-      return this.http.get<any>(`/api/Wiki?url=${url}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchWikibyUrl status code:", data.status);
-        return data;
-      }));
-    }
-    else if(userId != null){
-      return this.http.get<any>(`/api/Wiki?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchWikibyUser status code:", data.status);
+  fetchWikis(userId?: number){
+    if(userId != undefined){
+      return this.http.get<any>(`/api/Wiki?ownerID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchWikibyOwner status code:", data.status);
         return data;
       }));
     }
@@ -44,6 +32,20 @@ export class DataService{
         return data;
       }));
     }
+  }
+
+  fetchWikiById(id: number){
+    return this.http.get<any>(`/api/Wiki/${id}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchWiki status code:", data.status);
+      return data;
+    }));
+  }
+  
+  fetchWikiByUrl(url: string){
+    return this.http.get<any>(`/api/Wiki/url/${url}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchWikibyUrl status code:", data.status);
+      return data;
+    }));
   }
 
   createWiki(wiki: Wiki){
@@ -68,41 +70,39 @@ export class DataService{
   }
 
 // ==================================================================================================
-  fetchArticles(wikiId?: number, userId?: number){
-    if(userId != null){
-      return this.http.get<any>(`/api/Article?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchArticlesbyUser status code:", data.status);
-        return data;
-      }));
-    }
-    else if(wikiId != null){
-      return this.http.get<any>(`/api/Article?wikiID=${wikiId}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchArticlesbyWiki status code:", data.status);
-        return data;
-      }));
-    }
-    else{
-      return this.http.get<any>(`/api/Article/`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchAllArticles status code:", data.status);
-        return data;
-      }));
-    }
+  fetchArticles(){
+    return this.http.get<any>(`/api/Article/`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchAllArticles status code:", data.status);
+      return data;
+    }));
   }
 
-  fetchArticle(id?: number, url?: string){
-    if(id != null){
-      return this.http.get<any>(`/api/Article/${id}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchArticle status code:", data.status);
-        return data;
-      }));
-    }
-    else if(url != null){
-      return this.http.get<any>(`/api/Article?url=${url}`, HTTP_OPTIONS).pipe(map(data => {
-        console.log("fetchArticlebyUrl status code:", data.status);
-        return data;
-      }));
-    }
-    else return null;
+  fetchArticlesByWikiId(wikiId: number){
+    return this.http.get<any>(`/api/Article?wikiID=${wikiId}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchArticlesbyWiki status code:", data.status);
+      return data;
+    }));
+  }
+
+  fetchArticlesByUserId(userId: number){
+    return this.http.get<any>(`/api/Article?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchArticlesbyUser status code:", data.status);
+      return data;
+    }));
+  }
+
+  fetchArticleById(id: number){
+    return this.http.get<any>(`/api/Article/${id}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchArticle status code:", data.status);
+      return data;
+    }));
+  }
+
+  fetchArticleByUrl(url: string){
+    return this.http.get<any>(`/api/Article?url=${url}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchArticlebyUrl status code:", data.status);
+      return data;
+    }));
   }
 
   createArticle(article: Article){
