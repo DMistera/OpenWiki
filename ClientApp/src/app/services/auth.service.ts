@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 
@@ -53,11 +53,28 @@ export class AuthService {
     return this.user!=null;
   }
 
+  private handleError(error: HttpErrorResponse) {
+    console.log(error);
+    // console.log(new HttpErrorResponse(JSON.parse('{"status":401,"error":[{"key":"IsNotAllowed","message":"Email confirmation required"}]}')))
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(error);
+  }
+
   login(userName: string, password: string) {
     var user = {"userName": userName, "password": password};
 
     return this.http.post<any>(`/api/User/Login`, user, HTTP_OPTIONS2)
-      .pipe(map(data => {
+      .pipe(
+        map(data => {
         console.log("Login status code:", data.status)
         if(data.status == 200){
           this.userLoggedIn = true;
@@ -77,8 +94,12 @@ export class AuthService {
             }
           );
         }
+        if(data.status == 400){
+          console.log(data);
+        }
         return data;
-      }));
+      })
+    );
   }
 
   register(userName: string, email: string, password: string) {
@@ -107,7 +128,8 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post<any>('/api/User/Logout', HTTP_OPTIONS2).pipe(map(data => {
+    return this.http.delete<any>('/api/User/Logout', HTTP_OPTIONS2).pipe(map(data => {
+      console.log(data);
       localStorage.removeItem('user');
       this.userSubject.next(null);
       this.userLoggedIn = false;

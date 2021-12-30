@@ -7,7 +7,6 @@ export class Wiki {
   description: string;
   owner: User;
 
-
   constructor(object: any) {
     this.id = object?.id || 0;
     this.url = object?.url || '';

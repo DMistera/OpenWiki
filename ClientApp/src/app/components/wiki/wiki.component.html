@@ -1,9 +1,21 @@
-<p>wiki works!</p>
-
-<div class="jumbotron">
-  {{wiki.name}}
+<div class="jumbotron py-4">
+  <h4>
+    Wiki:
+    {{wiki.name}}
+  </h4>
+  <div class="container">
+    {{wiki.description}}
+  </div>
 </div>
-
-<div class="list-group">
-
+<div class="container pb-4 px-0 d-inline-flex flex-row-reverse" *ngIf=isLoggedIn>
+  <button class="btn btn-success float-right" (click)="openArticleFormPage()">
+    <i class="fa fa-plus pr-2"></i>
+    Add new article
+  </button>
 </div>
+<div class="card-columns" *ngIf="articles.length>0">
+  <div *ngFor="let article of articles">
+    <app-article-card [title]=article.name [id]=article.id [description]=article.description [url]=article.url [wiki_url]=this.wiki.url></app-article-card>
+  </div>
+</div>
+<p *ngIf="articles.length==0">No articles</p>

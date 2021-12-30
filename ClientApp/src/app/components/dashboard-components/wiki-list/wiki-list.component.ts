@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Wiki } from '@app/models';
 import { AuthService, DataService } from '@app/services';
 
@@ -12,12 +13,12 @@ export class WikiListComponent implements OnInit {
   isLoadingData: boolean;
   userId: number;
 
-  constructor(private authService: AuthService, private dataService: DataService) { }
+  constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.user.subscribe(x => {if(x!=null){this.userId= x.id}}).unsubscribe();
     this.isLoadingData = true;
-    this.dataService.fetchWiki(undefined, undefined, this.userId).subscribe((data: any) => {
+    this.dataService.fetchWikis(this.userId).subscribe((data: any) => {
       for (let e in data.body){
         let tempWiki = new Wiki(data.body[e]);
         this.wikiList.push(tempWiki);
@@ -32,8 +33,10 @@ export class WikiListComponent implements OnInit {
   }
 
 
-  openWikiEditingPage(){
-
+  openWikiEditingPage(wiki: Wiki){
+    this.router.navigate(['dashboard/wiki/'+wiki.url],{
+      state: {wiki_url: wiki.url, wiki_id: wiki.id}
+    });
   }
 
 

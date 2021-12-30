@@ -21,7 +21,7 @@ export class WikicardComponent implements OnInit {
   }
 
   openWikiPage(): void{
-    this.router.navigate(['/wiki/'+this.id]);
+    this.router.navigate(['/wiki/'+this.url]);
   }
 
 }

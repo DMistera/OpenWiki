@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute} from '@angular/router';
-import { Wiki } from '@app/models';
+import { ActivatedRoute, Router} from '@angular/router';
+import { Article, Wiki } from '@app/models';
 import { AuthService, DataService } from '@app/services';
 import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,8 +11,8 @@ import { faLeaf } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./wiki-edit.component.scss']
 })
 export class WikiEditComponent implements OnInit {
-  wikiId: number;
-  wikiURL: string;
+  wiki_id: number;
+  wiki_url: string;
   wiki: Wiki;
   form: FormGroup;
   wikiUpdated: Wiki;
@@ -27,27 +27,42 @@ export class WikiEditComponent implements OnInit {
   isResetDone = false;
   // ======================
 
-  constructor(private dataService: DataService, private actRoute: ActivatedRoute, private formBuilder: FormBuilder){
-    this.wikiURL = this.actRoute.snapshot.params.id;
-  }
+  articleList = [] as any;
 
+  constructor(private dataService: DataService, private router: Router, private actRoute: ActivatedRoute, private formBuilder: FormBuilder){
+    this.wiki_url = this.router.getCurrentNavigation()?.extras?.state?.wiki_url;
+    this.wiki_id = this.router.getCurrentNavigation()?.extras?.state?.wiki_id;
+    console.log(this.wiki_url);
+  }
+  
   ngOnInit(): void {
+    if(this.wiki_url==null){
+      this.wiki_url = this.actRoute.snapshot.params.wikiURL;
+    }
+
     this.form = this.formBuilder.group({
       name: '',
       url: '',
       description: ''
     });
     this.isLoadingData = true;
-    this.dataService.fetchWiki(undefined, this.wikiURL).subscribe((data: any) => {
-      console.log(data);
-      this.wiki = new Wiki(data.body[0]);//TODO remove [0] after fix
-      this.wikiUpdated = new Wiki(data.body[0]);
+    this.dataService.fetchWikiByUrl(this.wiki_url).subscribe((data: any) => {
+      this.wiki = new Wiki(data.body);
+      this.wikiUpdated = new Wiki(data.body);
       this.form = this.formBuilder.group({
         name: this.wiki.name,
         url: this.wiki.url,
         description: this.wiki.description
       });
       this.onChanges();
+      this.dataService.fetchArticlesByWikiId(this.wiki.id).subscribe((data: any) => {
+        for (let e in data.body){
+          let tempArticle = new Article(data.body[e]);
+          this.articleList.push(tempArticle);
+          // console.log(data.body[e]);
+        }
+        this.isLoadingData = false;
+      });
     });
   }
 
@@ -88,6 +103,21 @@ export class WikiEditComponent implements OnInit {
       );
     }
   }
+
+  deleteArticle(id:number){
+
+  }
+
+  openArticleEditingPage(article_id: any){
+    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/article/"+article_id],{
+      state: {
+        wiki_url: this.wiki.url,
+        wiki_id: this.wiki.id,
+        article_id: article_id
+      }
+    });
+  }
+
 
   resetAfterTimeout(){
     setTimeout( ()=>{

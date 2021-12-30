@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { User, Role } from '../../models';
 import { faUser, faHome, faSignOutAlt, faSlidersH} from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ScreenService } from '@app/services/screen.service';
+import { BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-nav-menu',
@@ -20,6 +22,8 @@ export class NavMenuComponent {
   isLoggedIn: boolean;
   user: User|null;
 
+  isBelowSm: boolean;
+
   collapseMenu() {
     this.isMenuExpanded = false;
   }
@@ -36,7 +40,7 @@ export class NavMenuComponent {
     this.isUserMenuExpanded = !this.isUserMenuExpanded;
   }
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
+  constructor(private authService: AuthService, private screenService: ScreenService, private router: Router, private route: ActivatedRoute) {
     // this.isLoggedIn = false;// TODO zmiana sprawdzić
     this.authService.user.subscribe(x => {
       this.user = x;
@@ -48,6 +52,19 @@ export class NavMenuComponent {
     });
     // this.isLoggedIn = this.authService.isUserLoggedIn;
     this.collapseUserMenu();
+  }
+
+  ngAfterViewInit(): void {
+    this.screenService.isBelowSm().subscribe((isBelowSm: BreakpointState) => {
+      this.isBelowSm = isBelowSm.matches;
+      if(!this.isBelowSm){
+        this.isUserMenuExpanded = false;
+        this.isMenuExpanded = false;
+      }
+      else{
+        this.isUserMenuExpanded = false;
+      }
+    });
   }
 
   isDashboard(){
@@ -79,4 +96,6 @@ export class NavMenuComponent {
       }
     );
   }
+
+  
 }

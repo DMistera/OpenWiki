@@ -44,38 +44,40 @@
               <i class="fa fa-sign-in"></i>
             </button>
           </li>
-
-          <!-- <li class="nav-item" *ngIf=isLoggedIn [routerLinkActive]="['link-active']">
-            <button class="btn" (click)="logout()">
-              <i class="fa fa-sign-out"></i>
-            </button>
-          </li> -->
         </ul>
 
         <div class="list-group" *ngIf=isMenuExpanded>
-          <!-- <a class="list-group-item-action" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['/']">
+          <a class="list-group-item-action py-2" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['/']">
             <div class="align-items-center d-flex w-100 justify-content-between">
               <div class="nav-item-title">Strona główna</div>
               <fa-icon [icon]="faHome"></fa-icon>
             </div>
-          </a> -->
-          <a class="list-group-item-action" [routerLinkActive]="['link-active']" [routerLink]="['/user']">
-            <div class="align-items-center d-flex w-100 justify-content-between">
-              <div class="nav-item-title">Użytkownik</div>
-              <fa-icon [icon]="faUser"></fa-icon>
-              <!-- TODO fix buttons  -->
-            </div>
           </a>
-          <a class="list-group-item-action" [routerLinkActive]="['link-active']" *ngIf=isLoggedIn [routerLink]="['/dashboard']">
+          <a class="list-group-item-action py-2" [routerLinkActive]="['link-active']" *ngIf=isLoggedIn [routerLink]="['/dashboard']">
             <div class="align-items-center d-flex w-100 justify-content-between">
               <div class="nav-item-title">Zarządzanie</div>
               <fa-icon [icon]="faSliders"></fa-icon>
               <!-- TODO fix buttons  -->
             </div>
           </a>
-          <a class="list-group-item-action" [routerLinkActive]="['link-active']" *ngIf=isLoggedIn (click)="logout()">
+          <a class="list-group-item-action py-2" (click)="toggleUserMenu()" *ngIf=isLoggedIn>
             <div class="align-items-center d-flex w-100 justify-content-between">
-              <div class="nav-item-title">Wyloguj</div>
+              <div class="nav-item-title">Użytkownik</div>
+              <fa-icon [icon]="faUser"></fa-icon>
+            </div>
+          </a>
+
+          <a class="list-group-item-action py-2" [routerLink]="['/user']" [routerLinkActive]="['active']" *ngIf=!isLoggedIn>
+            <div class="align-items-center d-flex w-100 justify-content-between">
+              <div class="nav-item-title">Login</div>
+              <i class="fa fa-sign-in p-0"></i>
+              <!-- TODO fix buttons  -->
+            </div>
+          </a>
+          
+          <a class="list-group-item-action py-2" [routerLinkActive]="['link-active']" *ngIf=isLoggedIn (click)="logout()">
+            <div class="align-items-center d-flex w-100 justify-content-between">
+              <div class="nav-item-title">Logout</div>
               <fa-icon [icon]="faLogout"></fa-icon>
               <!-- TODO fix buttons  -->
             </div>
@@ -88,20 +90,21 @@
 
   <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow bottom-nav" *ngIf="isLoggedIn&&isUserMenuExpanded">
     <div class="container" *ngIf=isUserMenuExpanded>
-      <div class="container justify-content-start pl-0" *ngIf=this.user?.userName>
-        <div class="badge badge-dark p-2">
-          <i class="fa fa-user px-2 py-1"></i>
+      <div class="container justify-content-start pl-0 " *ngIf=this.user?.userName>
+        <div class="badge badge-dark my-1">
+          <i class="fa fa-user p-0"></i>
+          <!-- px-2 py-1 -->
         </div>
         <div class="px-2">{{this.user?.userName}}</div>
       </div>
       <div class="container justify-content-start pl-0" *ngIf=this.user?.email>
-        <div class="badge badge-dark p-2">
-          <i class="fa fa-envelope  px-2 py-1"></i>
+        <div class="badge badge-dark my-1">
+          <i class="fa fa-envelope p-0"></i>
         </div>
         <div class="px-2">{{this.user?.email}}</div>
       </div>
       <div>
-        <button class="btn-light border rounded px-3 mx-2" (click)="logout()">
+        <button class="btn-light border rounded px-3 mx-2" *ngIf=!isMenuExpanded (click)="logout()">
           <i class="fa fa-sign-out"></i>
         </button>
       </div>
