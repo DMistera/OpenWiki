@@ -79,6 +79,10 @@ namespace OpenWiki.Server.Entities
                 ModelState.AddModelError("NotPermitted", "User does not have necessary role");
                 return ValidationProblem(ModelState);
             }
+            if (wiki.URL != wikiPostPutModel.URL && await IsUrlTaken(wiki.URL)) {
+                ModelState.AddModelError("UrlDuplicate", "This URL is already taken.");
+                return ValidationProblem(ModelState);
+            }
             wikiPostPutModel.UpdateWiki(wiki);
             dbContext.Entry(wiki).State = EntityState.Modified;
 
@@ -117,6 +121,10 @@ namespace OpenWiki.Server.Entities
         public async Task<ActionResult<WikiDTO>> PostWiki(WikiPostPutModel wikiPostPutModel)
         {
             Wiki wiki = wikiPostPutModel.CreateWiki();
+            if(await IsUrlTaken(wiki.URL)) {
+                ModelState.AddModelError("UrlDuplicate", "This URL is already taken.");
+                return ValidationProblem(ModelState);
+            }
             ApplicationUser user = await userManager.GetUserAsync(User);
             wiki.Owner = user;
             dbContext.Wikis.Add(wiki);
@@ -139,6 +147,10 @@ namespace OpenWiki.Server.Entities
             await dbContext.SaveChangesAsync();
 
             return Ok();
+        }
+
+        private async Task<bool> IsUrlTaken(string url) {
+            return await dbContext.Wikis.AnyAsync(i => i.URL == url);
         }
     }
 }
