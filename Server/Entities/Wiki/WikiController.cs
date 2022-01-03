@@ -91,9 +91,9 @@ namespace OpenWiki.Server.Entities
             return Ok();
         }
 
-        [HttpPut("maintainer/{id}")]
-        public async Task<IActionResult> AddMaintainer(long id, [FromBody] long maintainerID) {
-            Wiki wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.ID == id);
+        [HttpPut("maintainer")]
+        public async Task<IActionResult> AddMaintainer(WikiMaintainerModel model) {
+            Wiki wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.ID == model.WikiId);
             if (wiki == null) {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace OpenWiki.Server.Entities
                 ModelState.AddModelError("NotPermitted", "User does not have necessary role");
                 return ValidationProblem(ModelState);
             }
-            ApplicationUser maintainer = await userManager.FindByIdAsync(maintainerID.ToString()); // why is it correct in asp.net?
+            ApplicationUser maintainer = await userManager.FindByIdAsync(model.MaintainerId.ToString()); // why is it correct in asp.net?
             if(maintainer == null) {
                 return NotFound("Maintainer not found");
             }
