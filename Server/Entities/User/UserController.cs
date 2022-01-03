@@ -27,19 +27,29 @@ namespace OpenWiki.Server.Entities {
         }
 
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<ApplicationUserDTO>>> GetUsers(long maintainedWikiId) {
+            var query = PrepareQuery();
+            if (maintainedWikiId > 0) {
+                query = query.Where(o => o.MaintainedWikis.Any(wiki => wiki.ID == maintainedWikiId));
+            }
+            var queryResult = await query.ToListAsync();
+            return Ok(queryResult.Select(user => new ApplicationUserDTO(user)));
+        }
+
+        [HttpGet("Logged-In")]
         public async Task<ActionResult<ApplicationUserDTO>> GetLoggedUser() {
             var user = await userManager.GetUserAsync(User);
             if (user == null) {
                 return NoContent();
             } else {
-                var userWithWikis = await dbContext.Users.Include(user => user.OwnedWikis).Include(user => user.MaintainedWikis).FirstOrDefaultAsync(u => u.Id == user.Id);
+                var userWithWikis = await PrepareQuery().FirstOrDefaultAsync(u => u.Id == user.Id);
                 return Ok(new ApplicationUserDTO(userWithWikis));
             }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUserDTO>> GetUser(long id) {
-            var user = await dbContext.Users.Include(user => user.OwnedWikis).Include(user => user.MaintainedWikis).FirstOrDefaultAsync(u => u.Id == id);
+            var user = await PrepareQuery().FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) {
                 return NotFound();
             } else {
@@ -103,6 +113,12 @@ namespace OpenWiki.Server.Entities {
                 string errorCode = result.Errors.First().Code;
                 return Redirect($"https://localhost:4200/auth/confirm-email/failure/?error={errorCode}");
             }
+        }
+
+        private IQueryable<ApplicationUser> PrepareQuery() {
+            return dbContext.Users
+                .Include(user => user.OwnedWikis)
+                .Include(user => user.MaintainedWikis);
         }
     }
 }
