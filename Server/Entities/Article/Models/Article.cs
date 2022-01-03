@@ -11,6 +11,7 @@ namespace OpenWiki.Server.Entities {
         public long ID { get; set; }
         public string Title { get; set; }
         public string Abstract { get; set; }
+        public bool Active { get; set; }
         public Wiki Wiki { get; set; }
         public ICollection<Section> Sections { get; set; }
         [ForeignKey("CreatorId")]

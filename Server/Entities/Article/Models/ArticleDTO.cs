@@ -10,6 +10,7 @@ namespace OpenWiki.Server.Entities
         public long ID { get; set; }
         public string Title { get; set; }
         public string Abstract { get; set; }
+        public bool Active { get; set; }
         public WikiDTO Wiki { get; set; }
         public ICollection<Section> Sections { get; set; }
         public ApplicationUserDTO Creator { get; set; }
@@ -22,6 +23,7 @@ namespace OpenWiki.Server.Entities
             ID = article.ID;
             Title = article.Title;
             Abstract = article.Abstract;
+            Active = article.Active;
             Wiki = article.Wiki == null ? null : new WikiDTO(article.Wiki)
             {
                 Owner = null,

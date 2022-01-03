@@ -27,7 +27,7 @@ namespace OpenWiki.Server.Entities
 
         // GET: api/Article
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetArticles(long wikiID, long userID)
+        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetArticles(long wikiID, long userID, bool active)
         {
             var query = PrepareArticlesQuery();
             if(wikiID > 0) {
@@ -35,6 +35,9 @@ namespace OpenWiki.Server.Entities
             }
             if (userID > 0) {
                 query = query.Where(o => o.Creator.Id == userID);
+            }
+            if (active) {
+                query = query.Where(o => o.Active);
             }
             var queryResult = await query.ToListAsync();
             return Ok(queryResult.Select(article => new ArticleDTO(article)));
@@ -95,6 +98,24 @@ namespace OpenWiki.Server.Entities
             return Ok();
         }
 
+        [Authorize]
+        [HttpPut("activate/{id}")]
+        public async Task<IActionResult> ActivateArticle(long id) {
+            Article article = await PrepareArticlesQuery().FirstOrDefaultAsync(i => i.ID == id);
+            if (article == null) {
+                return NotFound();
+            }
+            if (article.Active) {
+                ModelState.AddModelError("ArticleActive", "This article is already active");
+                return ValidationProblem(ModelState);
+            }
+            article.Active = true;
+            dbContext.Entry(article).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+            return Ok(new ArticleDTO(article));
+        }
+
+
         // POST: api/Article
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -115,6 +136,7 @@ namespace OpenWiki.Server.Entities
             ApplicationUser user = await userManager.GetUserAsync(User);
             article.Creator = user;
             article.CreationDate = DateTime.Now;
+            article.Active = false;
             dbContext.Articles.Add(article);
             await dbContext.SaveChangesAsync();
 
