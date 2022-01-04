@@ -11,6 +11,9 @@ import { AuthService, DataService } from '@app/services';
   styleUrls: ['./article-form.component.scss']
 })
 export class ArticleFormComponent implements OnInit {
+  return_url: string;
+  return_name: string;
+  //=======================
   wiki_id: number;
   article: Article;
 
@@ -31,6 +34,9 @@ export class ArticleFormComponent implements OnInit {
   
 
   constructor(private authService: AuthService, private dataService: DataService, private router: Router, private formBuilder: FormBuilder) {
+    this.return_url = this.router.getCurrentNavigation()?.extras?.state?.return_url || "../";
+    this.return_name = this.router.getCurrentNavigation()?.extras?.state?.return_name || "dashboard";
+    
     this.wiki_id =  Number(this.router.getCurrentNavigation()?.extras?.state?.wiki_id);
     this.article = new Article({"wikiID":Number(this.wiki_id)});
     console.log(this.wiki_id);
@@ -97,7 +103,7 @@ export class ArticleFormComponent implements OnInit {
           console.log(data);
           this.isSuccessful = true;
           this.isArticleCreateFailed = false;
-          this.router.navigate(['wiki/'+this.wiki_id]);
+          this.router.navigate([this.return_url]);//TODO: test required
         },
         err => {
           console.log(err);
@@ -105,7 +111,6 @@ export class ArticleFormComponent implements OnInit {
           this.isArticleCreateFailed = true;
         }
       );
-      // console.log(this.article);
       return true;
     }
   }

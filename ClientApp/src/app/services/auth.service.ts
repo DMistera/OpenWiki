@@ -115,7 +115,7 @@ export class AuthService {
 
 
   userInfo() {
-    return this.http.get<any>(`/api/User/`, { observe: 'response'}).pipe(map(data => {
+    return this.http.get<any>(`/api/User/Logged-In`, { observe: 'response'}).pipe(map(data => {
       console.log("UserInfo status code:", data.status)
       if(data.status == 200){
         this.userLoggedIn = true;

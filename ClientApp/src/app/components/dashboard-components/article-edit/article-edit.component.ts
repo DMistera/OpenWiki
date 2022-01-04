@@ -13,6 +13,9 @@ import { AuthService, DataService } from '@app/services';
 export class ArticleEditComponent implements OnInit {
   wiki_url: string;
   article_id: number;
+  return_url: string;
+  return_name: string;
+  //=======================
   article: Article;
 
   form: FormGroup;
@@ -35,6 +38,8 @@ export class ArticleEditComponent implements OnInit {
   constructor(private authService: AuthService, private dataService: DataService, private router: Router, private actRoute: ActivatedRoute, private formBuilder: FormBuilder) {
     this.wiki_url =  this.router.getCurrentNavigation()?.extras?.state?.wiki_url;
     this.article_id = this.router.getCurrentNavigation()?.extras?.state?.article_id;
+    this.return_url = this.router.getCurrentNavigation()?.extras?.state?.return_url || "../../";
+    this.return_name = this.router.getCurrentNavigation()?.extras?.state?.return_name || "dashboard";
   }
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@ export class Article {
   title: string;
   abstract: string;
   wiki: Wiki;
+  wikiID: number;
   sections: Section[];
   creator: User;
   creationDate: string;
@@ -20,6 +21,10 @@ export class Article {
     this.abstract = object?.abstract || '';
     if(object.wiki != null){
       this.wiki = new Wiki(object.wiki);
+      this.wikiID = this.wiki.id;
+    }
+    else if(object.wikiID != null){
+      this.wikiID = object?.wikiID;
     }
     if(object.owner != null){
       this.creator = new User(object.owner);

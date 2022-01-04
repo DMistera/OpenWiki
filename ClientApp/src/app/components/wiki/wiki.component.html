@@ -15,7 +15,7 @@
 </div>
 <div class="card-columns" *ngIf="articles.length>0">
   <div *ngFor="let article of articles">
-    <app-article-card [title]=article.name [id]=article.id [description]=article.description [url]=article.url [wiki_url]=this.wiki.url></app-article-card>
+    <app-article-card [title]=article.title [id]=article.id [description]=article.abstract [wiki_url]=this.wiki.url></app-article-card>
   </div>
 </div>
 <p *ngIf="articles.length==0">No articles</p>

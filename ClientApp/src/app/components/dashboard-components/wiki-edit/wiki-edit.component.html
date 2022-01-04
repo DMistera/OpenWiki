@@ -8,71 +8,131 @@
     Save changes
   </button>
 </div>
-<div class="jumbotron py-3 mb-3 d-flex flex-row align-items-center">
-  <i class="fa fa-object-group py-2 pr-4 m-0"></i>
-  <p class="p-0 m-0">Edit wiki form</p>
-</div>
-
-<div class="card card-container p-3 mb-3">
-  <form
-    *ngIf="!isSuccessful"
-    [formGroup]="form"
-    id="ngForm"
-    (ngSubmit)="updateWikiData()"
-  >
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input
-        type="text"
-        class="form-control"
-        name="name"
-        formControlName="name"
-
-      />
+<div class="jumbotron py-3 pr-0 mb-3 d-flex flex-row align-items-center" (click)="collapseMain.toggle()" [attr.aria-expanded]="!isMainPartCollapsed">
+  <div class="container m-0 d-inline-flex flex-row">
+    <div class="row align-items-center flex-fill">
+      <i class="fa fa-object-group py-2 pr-4 m-0"></i>
+      <p class="p-0 m-0">Edit wiki form</p>
     </div>
-    <div class="form-group">
-      <label for="url">URL</label>
-      <input
-        type="url"
-        class="form-control"
-        name="url"
-        formControlName="url"
-      />
+    <div class="float-right align-items-center">
+      <i class="fa fa-minus px-4 py-2 m-0" *ngIf="!isMainPartCollapsed"></i>
+      <i class="fa fa-arrow-down px-4 py-2 m-0" *ngIf="isMainPartCollapsed"></i>
     </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea type="description"
-      class="form-control"
-      name="description"
-      id="description"
-      formControlName="description"
-      rows="5"></textarea>
-    </div>
-  </form>
-
-  <div class="alert alert-success m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isSuccessful">
-    Wiki updated!
-    <button class="btn btn-success float-right" (click)="resetForm()">
-      <i class="fa fa-close" style="color:white"></i>
-    </button>
-  </div>
-  <div class="alert alert-danger m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isFailed">
-    Wiki not updated!
-    <button class="btn btn-danger float-right" (click)="resetForm()">
-      <i class="fa fa-close" style="color:white"></i>
-    </button>
   </div>
 </div>
 
-<div class="jumbotron py-3 mb-3 d-flex flex-row align-items-center">
-  <i class="fa fa-object-group py-2 pr-4 m-0"></i>
-  <p class="p-0 m-0">Article list</p>
+<div #collapseMain="ngbCollapse" [(ngbCollapse)]="isMainPartCollapsed">
+  <div class="card card-container p-3 mb-3">
+    <form
+      *ngIf="!isSuccessful"
+      [formGroup]="form"
+      id="ngForm"
+      (ngSubmit)="updateWikiData()"
+    >
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          formControlName="name"
+  
+        />
+      </div>
+      <div class="form-group">
+        <label for="url">URL</label>
+        <input
+          type="url"
+          class="form-control"
+          name="url"
+          formControlName="url"
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="description"
+        class="form-control"
+        name="description"
+        id="description"
+        formControlName="description"
+        rows="5"></textarea>
+      </div>
+    </form>
+  
+    <div class="alert alert-success m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isSuccessful">
+      Wiki updated!
+      <button class="btn btn-success float-right" (click)="resetForm()">
+        <i class="fa fa-close" style="color:white"></i>
+      </button>
+    </div>
+    <div class="alert alert-danger m-0 align-items-center text-center d-flex flex-row  justify-content-between" *ngIf="isFailed">
+      Wiki not updated!
+      <button class="btn btn-danger float-right" (click)="resetForm()">
+        <i class="fa fa-close" style="color:white"></i>
+      </button>
+    </div>
+  </div>
 </div>
-<div>
+
+<div class="jumbotron py-3 pr-0 mt-3 mb-0 d-flex flex-row align-items-center" (click)="collapseMaintainers.toggle()" [attr.aria-expanded]="!isMaintainersPartCollapsed">
+  <div class="container m-0 d-inline-flex flex-row">
+    <div class="row align-items-center flex-fill">
+      <i class="fa fa fa-pencil py-2 pr-4 m-0"></i>
+      <p class="p-0 m-0">Maintainers</p>
+    </div>
+    <div class="float-right align-items-center">
+      <i class="fa fa-minus px-4 py-2 m-0" *ngIf="!isMaintainersPartCollapsed"></i>
+      <i class="fa fa-arrow-down px-4 py-2 m-0" *ngIf="isMaintainersPartCollapsed"></i>
+    </div>
+  </div>
+</div>
+<div #collapseMaintainers="ngbCollapse" [(ngbCollapse)]="isMaintainersPartCollapsed">
+  <div class="d-flex align-items-center p-0 mb-3 pt-3">
+    <button class="btn btn-outline-success m-0 flex-fill" (click)="openMaintainerFormPage()">
+      <i class="fa fa-plus pr-2" ></i>
+      <i class="fa fa-user pr-2" ></i>
+      <!-- Add new maintainer -->
+    </button>
+  </div>
+  <ul class="list-group" *ngIf=!isLoadingData>
+    <div *ngFor="let maintainer of wiki?.maintainers">
+      <li class="list-group-item d-flex justify-content-between align-items-center py-0 px-0">
+        <div class="flex-fill">
+          <i class="fa fa-pencil pl-4 pr-3 py-4 m-0"></i>
+          {{maintainer.userName}}
+        </div>
+        <button class="btn px-4 py-3" (click)="$event.stopPropagation(); deleteMaintainer(maintainer.id);">
+          <i class="fa fa-trash" style="color:red"></i>
+        </button>
+      </li>
+    </div>
+  </ul>
+</div>
+
+<div class="jumbotron py-3 pr-0 mt-3 mb-0 d-flex flex-row align-items-center" (click)="collapseArticles.toggle()" [attr.aria-expanded]="!isArticlePartCollapsed">
+  <div class="container m-0 d-inline-flex flex-row">
+    <div class="row align-items-center flex-fill">
+      <i class="fa fa fa-file-text-o py-2 pr-4 m-0"></i>
+      <p class="p-0 m-0">Article list</p>
+    </div>
+    <div class="float-right align-items-center">
+      <i class="fa fa-minus px-4 py-2 m-0" *ngIf="!isArticlePartCollapsed"></i>
+      <i class="fa fa-arrow-down px-4 py-2 m-0" *ngIf="isArticlePartCollapsed"></i>
+    </div>
+  </div>
+</div>
+
+<div #collapseArticles="ngbCollapse" [(ngbCollapse)]="isArticlePartCollapsed">
+  <div class="d-flex align-items-center p-0 mb-3 pt-3">
+    <button class="btn btn-outline-success m-0 flex-fill" (click)="openArticleFormPage()">
+      <i class="fa fa-plus pr-2" ></i>
+      <i class="fa fa-file-text pr-2" ></i>
+      <!-- Add new article -->
+    </button>
+  </div>
   <ul class="list-group" *ngIf=!isLoadingData>
     <div *ngFor="let article of articleList">
       <li class="list-group-item d-flex justify-content-between align-items-center py-0 px-0">
-        <!-- TODO change link to article.url -->
         <button class="btn flex-grow-1 d-flex flex-row align-items-center justify-content-between p-0" (click)="openArticleEditingPage(article.id);">
           <div>
             <i class="fa fa-file-text-o pl-4 pr-3 py-4 m-0"></i>

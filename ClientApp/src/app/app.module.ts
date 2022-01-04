@@ -17,7 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserComponent } from './components/user/user.component';
 import { WikiComponent } from './components/wiki/wiki.component';
-import { WikiFormComponent } from './components/forms/wiki-form/wiki-form.component';
+import { WikiFormComponent } from './components/dashboard-components/wiki-form/wiki-form.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { WikiListComponent } from './components/dashboard-components/wiki-list/wiki-list.component';
 import { ArticleListComponent } from './components/dashboard-components/article-list/article-list.component';
@@ -29,10 +29,11 @@ import { ConfirmEmailComponent } from './components/auth/confirm-email/confirm-e
 import { ConfirmEmailSuccessComponent } from './components/auth/confirm-email-components/confirm-email-success/confirm-email-success.component';
 import { ConfirmEmailFailureComponent } from './components/auth/confirm-email-components/confirm-email-failure/confirm-email-failure.component';
 import { ConfirmEmailDefaultComponent } from './components/auth/confirm-email-components/confirm-email-default/confirm-email-default.component';
-import { ArticleFormComponent } from './components/forms/article-form/article-form.component';
+import { ArticleFormComponent } from './components/dashboard-components/article-form/article-form.component';
 import { ArticleComponent } from './components/article/article.component';
 import { ArticleEditComponent } from './components/dashboard-components/article-edit/article-edit.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     ConfirmEmailDefaultComponent,
     ArticleFormComponent,
     ArticleComponent,
-    ArticleEditComponent
+    ArticleEditComponent,
+    MaintainerFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

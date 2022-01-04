@@ -60,4 +60,4 @@ export class LoginComponent implements OnInit {
   }
 }
 
-//TODO logout/login nie resetuje stanu strony
+//TODO: logout/login nie resetuje stanu strony

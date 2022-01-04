@@ -10,16 +10,11 @@ import { AuthService, DataService } from '@app/services';
 export class UserSummaryComponent implements OnInit {
   user: User;
 
-
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     this.authService.userInfo().subscribe((data: any) => {
-      console.log("UserData: ");
-      console.log(JSON.stringify(data.body));
       this.user = new User(data.body);
-      console.log(this.user);
     });
   }
-
 }
