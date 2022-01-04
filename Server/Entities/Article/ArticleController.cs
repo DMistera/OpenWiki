@@ -115,6 +115,23 @@ namespace OpenWiki.Server.Entities
             return Ok(new ArticleDTO(article));
         }
 
+        [Authorize]
+        [HttpPut("deactivate/{id}")]
+        public async Task<IActionResult> ActivateArticle(long id) {
+            Article article = await PrepareArticlesQuery().FirstOrDefaultAsync(i => i.ID == id);
+            if (article == null) {
+                return NotFound();
+            }
+            if (article.Active) {
+                ModelState.AddModelError("ArticleActive", "This article is already active");
+                return ValidationProblem(ModelState);
+            }
+            article.Active = false;
+            dbContext.Entry(article).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+            return Ok(new ArticleDTO(article));
+        }
+
 
         // POST: api/Article
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
