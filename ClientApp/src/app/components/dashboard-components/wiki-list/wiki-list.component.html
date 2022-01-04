@@ -1,5 +1,9 @@
-<ul class="list-group" *ngIf=!isLoadingData>
-  <div *ngFor="let wiki of wikiList">
+<ul class="list-group mb-3 mt-1" *ngIf=!isLoadingData>
+  <li class="list-group-item list-group-item-secondary flex-grow-1 d-flex flex-row justify-content-between align-items-center">
+    <div>Owned</div>
+    <div class="badge badge-light m-0 px-3 py-2">{{user.ownedWikis.length}}</div>
+  </li>
+  <div *ngFor="let wiki of user.ownedWikis">
     <li class="list-group-item d-flex justify-content-between align-items-center py-0 px-0">
       <button class="btn flex-grow-1 d-flex flex-row align-items-center justify-content-between p-0"  (click)="openWikiEditingPage(wiki);">
         <div>
@@ -10,6 +14,24 @@
       </button>
       <button class="btn px-4 py-3" (click)="$event.stopPropagation(); deleteWiki(wiki.id)">
         <i class="fa fa-trash" style="color:red"></i>
+      </button>
+    </li>
+  </div>
+</ul>
+
+<ul class="list-group mb-3 mt-1" *ngIf=!isLoadingData>
+  <li class="list-group-item list-group-item-secondary flex-grow-1 d-flex flex-row justify-content-between align-items-center">
+    <div>Maintained</div>
+    <div class="badge badge-light m-0 px-3 py-2">{{user.maintainedWikis.length}}</div>
+  </li>
+  <div *ngFor="let wiki of user.maintainedWikis">
+    <li class="list-group-item d-flex justify-content-between align-items-center py-0 px-0">
+      <button class="btn flex-grow-1 d-flex flex-row align-items-center justify-content-between p-0"  (click)="openWikiEditingPage(wiki);">
+        <div>
+          <i class="fa fa-object-group pl-4 pr-3 py-4 m-0"></i>
+          {{wiki.name}}
+        </div>
+        <i class="fa fa-pencil px-4"></i>
       </button>
     </li>
   </div>

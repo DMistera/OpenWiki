@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Wiki } from '@app/models';
+import { User, Wiki } from '@app/models';
 import { AuthService, DataService } from '@app/services';
 
 @Component({
@@ -9,23 +9,26 @@ import { AuthService, DataService } from '@app/services';
   styleUrls: ['./wiki-list.component.scss']
 })
 export class WikiListComponent implements OnInit {
-  wikiList = [] as  any;
   isLoadingData: boolean;
+  user: User;
   userId: number;
 
   constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.user.subscribe(x => {if(x!=null){this.userId= x.id}}).unsubscribe();
     this.isLoadingData = true;
-    this.dataService.fetchWikis(this.userId).subscribe((data: any) => {
-      for (let e in data.body){
-        let tempWiki = new Wiki(data.body[e]);
-        this.wikiList.push(tempWiki);
-        // console.log(data.body[e]);
-      }
-      this.isLoadingData = false;
+    this.authService.userInfo().subscribe(data => {
+        this.user = new User(data.body);
+        this.isLoadingData = false;
     });
+    // this.dataService.fetchWikis(this.userId).subscribe((data: any) => {
+    //   for (let e in data.body){
+    //     let tempWiki = new Wiki(data.body[e]);
+    //     this.wikiList.push(tempWiki);
+    //     // console.log(data.body[e]);
+    //   }
+    //   this.isLoadingData = false;
+    // });
   }
 
   print(text: string){
@@ -44,7 +47,8 @@ export class WikiListComponent implements OnInit {
     this.dataService.deleteWiki(id).subscribe(
       data => {
         // console.log(data);
-        this.wikiList = this.wikiList.filter((x:any) => id != x.id);
+        this.user.ownedWikis = this.user.ownedWikis.filter((x:any) => id != x.id);
+        this.user.maintainedWikis = this.user.maintainedWikis.filter((x:any) => id != x.id);
       },
       err => {
         // console.log(err);
@@ -60,7 +64,7 @@ export class WikiListComponent implements OnInit {
     this.dataService.createWiki(wiki).subscribe(
       data => {
         // console.log(data);
-        this.wikiList.push(new Wiki(data.body));
+        this.user.ownedWikis.push(new Wiki(data.body));
       },
       err => {
         // console.log(err);
