@@ -117,7 +117,7 @@ namespace OpenWiki.Server.Entities
 
         [Authorize]
         [HttpPut("deactivate/{id}")]
-        public async Task<IActionResult> ActivateArticle(long id) {
+        public async Task<IActionResult> DeactivateArticle(long id) {
             Article article = await PrepareArticlesQuery().FirstOrDefaultAsync(i => i.ID == id);
             if (article == null) {
                 return NotFound();
