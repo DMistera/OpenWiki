@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Article } from '@app/models';
 import { AuthService, DataService } from '@app/services';
 
@@ -12,7 +13,7 @@ export class ArticleListComponent implements OnInit {
   isLoadingData: boolean;
   userId: number;
 
-  constructor(private authService: AuthService, private dataService: DataService) { }
+  constructor(private authService: AuthService, private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.user.subscribe(x => {if(x!=null){this.userId= x.id}}).unsubscribe();
@@ -32,8 +33,14 @@ export class ArticleListComponent implements OnInit {
   }
 
 
-  openArticleEditingPage(){
-    
+  openArticleEditingPage(article_id: any){
+    this.router.navigate(['dashboard/article/'+article_id],{
+      state: {
+        article_id: article_id,
+        return_url: '../',
+        return_name: "dashboard"
+      }
+    });
   }
 
 

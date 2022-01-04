@@ -1,7 +1,7 @@
 <div class="container pb-3 px-0 pt-0 d-inline-flex flex-row justify-content-between">
-    <button class="btn btn-light float-right" [routerLink]="['../../']">
+    <button class="btn btn-light float-right" [routerLink]="[return_url]">
         <i class="fa fa-arrow-left pr-2"></i>
-        Return to dashboard
+        Return to {{return_name}}
     </button>
     <button class="btn btn-success float-right" form="ngForm" [disabled]="isArticleDataUpdated ? false : true">
         <i class="fa fa-check-square pr-2" style="color:white"></i>

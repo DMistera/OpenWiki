@@ -11,7 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { UserComponent } from './components/user/user.component';
-import { WikiFormComponent } from './components/forms/wiki-form/wiki-form.component';
+import { WikiFormComponent } from './components/dashboard-components/wiki-form/wiki-form.component';
 import { WikiComponent } from './components/wiki/wiki.component';
 import { AuthGuard } from './helpers';
 import { Role } from './models';
@@ -21,7 +21,8 @@ import { ConfirmEmailSuccessComponent } from './components/auth/confirm-email-co
 import { ConfirmEmailDefaultComponent } from './components/auth/confirm-email-components/confirm-email-default/confirm-email-default.component';
 import { ArticleEditComponent } from './components/dashboard-components/article-edit/article-edit.component';
 import { ArticleComponent } from './components/article/article.component';
-import { ArticleFormComponent } from './components/forms/article-form/article-form.component';
+import { ArticleFormComponent } from './components/dashboard-components/article-form/article-form.component';
+import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -47,8 +48,11 @@ const routes: Routes = [
       { path: 'summary', component: UserSummaryComponent, canActivate: [AuthGuard]},
       { path: 'wiki', component: WikiListComponent, canActivate: [AuthGuard]},
       { path: 'wiki/:wikiURL', component: WikiEditComponent, canActivate: [AuthGuard]},
-      { path: 'wiki/:wikiURL/article/:articleId', component: ArticleEditComponent },
+      { path: 'wiki-form', component: WikiFormComponent, canActivate: [AuthGuard]},
+      { path: 'wiki/:wikiURL/article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
+      { path: 'wiki/:wikiURL/maintainer-form', component: MaintainerFormComponent, canActivate: [AuthGuard]},
 
+      { path: 'wiki/:wikiURL/article-form', component: ArticleFormComponent, canActivate: [AuthGuard]},
       { path: 'article', component: ArticleListComponent, canActivate: [AuthGuard]},
       { path: 'article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
     ]
@@ -60,8 +64,8 @@ const routes: Routes = [
   { path: 'wiki/:wikiURL', component: WikiComponent },
   { path: 'wiki-form', component: WikiFormComponent },
 
-  { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '404' }
+  // { path: '404', component: NotFoundComponent },
+  // { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({
