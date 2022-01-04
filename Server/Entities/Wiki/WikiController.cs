@@ -114,6 +114,32 @@ namespace OpenWiki.Server.Entities
             return Ok();
         }
 
+
+        [HttpDelete("maintainer")]
+        public async Task<IActionResult> RemoveMaintainer(WikiMaintainerModel model) {
+            Wiki wiki = await dbContext.Wikis.Include(o => o.Owner).Include(o => o.Maintainers).FirstOrDefaultAsync(i => i.ID == model.WikiId);
+            if (wiki == null) {
+                return NotFound();
+            }
+            ApplicationUser user = await userManager.GetUserAsync(User);
+            if (!wiki.CanBeModifiedBy(user)) {
+                ModelState.AddModelError("NotPermitted", "User does not have necessary role");
+                return ValidationProblem(ModelState);
+            }
+            ApplicationUser maintainer = await userManager.FindByIdAsync(model.MaintainerId.ToString()); // why is it correct in asp.net?
+            if (maintainer == null) {
+                return NotFound("Maintainer not found");
+            }
+            if(!wiki.Maintainers.Remove(maintainer)) {
+                return NotFound("Wiki does not have this maintainer");
+            }
+            dbContext.Entry(wiki).State = EntityState.Modified;
+
+            await dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
         // POST: api/Wiki
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
