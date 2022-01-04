@@ -11,7 +11,6 @@ export class ArticleCardComponent implements OnInit {
   @Input()id = 1;
   @Input()description = 'description';
   @Input()wiki_url = '';
-  @Input()url = '';
 
   image = (n:any)=>`https://picsum.photos/id/${n}/900/500`;
 
