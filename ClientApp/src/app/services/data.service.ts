@@ -84,6 +84,34 @@ export class DataService{
     }));
   }
 
+  addWikiMaintainer(wikiId:number, maintainerId:number){
+    let body = {
+      "wikiId": wikiId,
+      "maintainerId": maintainerId
+    };
+    return this.http.put<any>('/api/Wiki/maintainer', JSON.stringify(body), HTTP_OPTIONS).pipe(map(data => {
+      console.log("addWikiMaintainer status code:", data.status);
+      return data;
+    }));
+  }
+
+  removeWikiMaintainer(wikiId:number, maintainerId:number){
+    const body = {
+      "wikiId": wikiId,
+      "maintainerId": maintainerId
+    };
+    const tempOptions = {
+      headers: HTTP_OPTIONS.headers,
+      observe: HTTP_OPTIONS.observe,
+      body: JSON.stringify(body)
+    };
+    
+    return this.http.delete<any>('/api/Wiki/maintainer', tempOptions).pipe(map(data => {
+      console.log("removeWikiMaintainer status code:", data.status);
+      return data;
+    }));
+  }
+
 // ==================================================================================================
   fetchArticles(){
     return this.http.get<any>(`/api/Article/`, HTTP_OPTIONS).pipe(map(data => {

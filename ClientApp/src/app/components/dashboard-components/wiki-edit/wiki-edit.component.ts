@@ -96,11 +96,10 @@ export class WikiEditComponent implements OnInit {
 
           this.isSuccessful = true;
           this.isFailed = false;
+          this.wiki_url = this.wiki.url;//check
           this.resetAfterTimeout();
         },
         err => {
-          // TODO: error support
-          // console.log(err);
           this.isSuccessful = false;
           this.isFailed = true;
           this.resetAfterTimeout();
@@ -109,17 +108,24 @@ export class WikiEditComponent implements OnInit {
     }
   }
 
-  deleteArticle(id:number){//TODO:
+  deleteArticle(id:number){
+    //TODO: add confirm alert
     console.log("delete article: "+id)
+    this.dataService.deleteArticle(id).subscribe((data: any) => {
+      this.articleList = this.articleList.filter((x:any) => id != x.id);
+    });
   }
 
-  deleteMaintainer(id:number){//TODO:
+  deleteMaintainer(id:number){
     console.log("delete maintainer: "+id)
+    this.dataService.removeWikiMaintainer(this.wiki.id, id).subscribe((data: any) => {
+      this.wiki.maintainers = this.wiki.maintainers.filter((x:any) => id != x.id);
+    });
   }
 
 
   openMaintainerFormPage(){
-    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/maintainer-form"],{
+    this.router.navigate(['dashboard/wiki/'+this.wiki.url+"/maintainer-form"],{
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,
@@ -131,18 +137,18 @@ export class WikiEditComponent implements OnInit {
 
   openArticleFormPage(){
     console.log("wiki id "+this.wiki.id);
-    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/article-form"],{
+    this.router.navigate(['dashboard/wiki/'+this.wiki.url+"/article-form"],{
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,
-        return_url: 'dashboard/wiki/'+this.wiki_url,
+        return_url: 'dashboard/wiki/'+this.wiki.url,
         return_name: "edit wiki form"
       }
     });
   }
 
   openArticleEditingPage(article_id: any){
-    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/article/"+article_id],{
+    this.router.navigate(['dashboard/wiki/'+this.wiki.url+"/article/"+article_id],{
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,

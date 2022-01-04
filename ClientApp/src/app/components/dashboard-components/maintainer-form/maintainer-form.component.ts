@@ -24,6 +24,9 @@ export class MaintainerFormComponent implements OnInit {
     this.return_url = this.router.getCurrentNavigation()?.extras?.state?.return_url || "../";
     this.return_name = this.router.getCurrentNavigation()?.extras?.state?.return_name || "dashboard";
     this.wiki_id =  this.router.getCurrentNavigation()?.extras?.state?.wiki_id;
+
+    this.maintainers = [];
+    this.other_users = [];
   }
 
   ngOnInit(): void {
@@ -32,6 +35,8 @@ export class MaintainerFormComponent implements OnInit {
 
       this.dataService.fetchWikiByUrl(wiki_url).subscribe((data: any) => {
         this.wiki = new Wiki(data.body);
+        this.wiki_id=this.wiki.id;
+        
         this.maintainers = [];
         this.maintainers = this.wiki.maintainers;
   
@@ -78,21 +83,24 @@ export class MaintainerFormComponent implements OnInit {
   }
 
   addMaintainer(id: any){
-    this.other_users.filter((x:any) => {
-      if(id == x.id){
-        this.maintainers.push(x);
-      }
+    this.dataService.addWikiMaintainer(this.wiki_id, id).subscribe((data: any) => {
+      this.other_users.filter((x:any) => {
+        if(id == x.id){
+          this.maintainers.push(x);
+        }
+      });
+      this.other_users = this.other_users.filter((x:any) => id != x.id);
     });
-    this.other_users = this.other_users.filter((x:any) => id != x.id);
   }
 
   removeMaintainer(id: any){
-    this.maintainers.filter((x:any) => {
-      if(id == x.id){
-        this.other_users.push(x);
-      }
-    });
-    this.maintainers = this.maintainers.filter((x:any) => id != x.id);
+    this.dataService.removeWikiMaintainer(this.wiki_id, id).subscribe((data: any) => {
+      this.maintainers.filter((x:any) => {
+        if(id == x.id){
+          this.other_users.push(x);
+        }
+      });
+      this.maintainers = this.maintainers.filter((x:any) => id != x.id);
+  });
   }
-
 }
