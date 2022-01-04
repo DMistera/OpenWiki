@@ -41,7 +41,7 @@ export class NavMenuComponent {
   }
 
   constructor(private authService: AuthService, private screenService: ScreenService, private router: Router, private route: ActivatedRoute) {
-    // this.isLoggedIn = false;// TODO zmiana sprawdzić
+    // this.isLoggedIn = false;// TODO: zmiana sprawdzić
     this.authService.user.subscribe(x => {
       this.user = x;
       if(x==null){
