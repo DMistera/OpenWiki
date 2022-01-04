@@ -122,8 +122,8 @@ namespace OpenWiki.Server.Entities
             if (article == null) {
                 return NotFound();
             }
-            if (article.Active) {
-                ModelState.AddModelError("ArticleActive", "This article is already active");
+            if (!article.Active) {
+                ModelState.AddModelError("ArticleActive", "This article is already inactive");
                 return ValidationProblem(ModelState);
             }
             article.Active = false;
