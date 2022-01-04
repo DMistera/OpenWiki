@@ -27,13 +27,19 @@ namespace OpenWiki.Server.Entities
 
         // GET: api/Wiki
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WikiDTO>>> GetWikis(long ownerID)
-        {
+        public async Task<ActionResult<IEnumerable<WikiDTO>>> GetWikis(long ownerID, string search) {
             IQueryable<Wiki> query = dbContext.Wikis
                 .Include(o => o.Owner)
                 .Include(o => o.Maintainers);
-            if(ownerID > 0) {
+            if (ownerID > 0) {
                 query = query.Where(o => o.Owner.Id == ownerID);
+            }
+            if (search != null && search.Length > 0) {
+                query = query.Where(o =>
+                    o.Name.ToLower().Contains(search.ToLower()) ||
+                    o.URL.ToLower().Contains(search.ToLower()) ||
+                    o.Description.ToLower().Contains(search.ToLower())
+                );
             }
             var queryResult = await query.ToListAsync();
             return Ok(queryResult.Select(wiki => new WikiDTO(wiki)));
