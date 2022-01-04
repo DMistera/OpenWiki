@@ -99,8 +99,6 @@ export class WikiEditComponent implements OnInit {
           this.resetAfterTimeout();
         },
         err => {
-          // TODO: error support
-          // console.log(err);
           this.isSuccessful = false;
           this.isFailed = true;
           this.resetAfterTimeout();
@@ -109,12 +107,19 @@ export class WikiEditComponent implements OnInit {
     }
   }
 
-  deleteArticle(id:number){//TODO:
+  deleteArticle(id:number){
+    //TODO: add confirm alert
     console.log("delete article: "+id)
+    this.dataService.deleteArticle(id).subscribe((data: any) => {
+      this.articleList = this.articleList.filter((x:any) => id != x.id);
+    });
   }
 
-  deleteMaintainer(id:number){//TODO:
+  deleteMaintainer(id:number){
     console.log("delete maintainer: "+id)
+    this.dataService.removeWikiMaintainer(this.wiki.id, id).subscribe((data: any) => {
+      this.wiki.maintainers = this.wiki.maintainers.filter((x:any) => id != x.id);
+    });
   }
 
 
