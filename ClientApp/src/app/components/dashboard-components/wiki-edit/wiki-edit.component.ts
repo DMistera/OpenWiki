@@ -96,6 +96,7 @@ export class WikiEditComponent implements OnInit {
 
           this.isSuccessful = true;
           this.isFailed = false;
+          this.wiki_url = this.wiki.url;//check
           this.resetAfterTimeout();
         },
         err => {
@@ -124,7 +125,7 @@ export class WikiEditComponent implements OnInit {
 
 
   openMaintainerFormPage(){
-    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/maintainer-form"],{
+    this.router.navigate(['dashboard/wiki/'+this.wiki.url+"/maintainer-form"],{
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,
@@ -136,18 +137,18 @@ export class WikiEditComponent implements OnInit {
 
   openArticleFormPage(){
     console.log("wiki id "+this.wiki.id);
-    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/article-form"],{
+    this.router.navigate(['dashboard/wiki/'+this.wiki.url+"/article-form"],{
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,
-        return_url: 'dashboard/wiki/'+this.wiki_url,
+        return_url: 'dashboard/wiki/'+this.wiki.url,
         return_name: "edit wiki form"
       }
     });
   }
 
   openArticleEditingPage(article_id: any){
-    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/article/"+article_id],{
+    this.router.navigate(['dashboard/wiki/'+this.wiki.url+"/article/"+article_id],{
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,
