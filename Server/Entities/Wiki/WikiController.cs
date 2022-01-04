@@ -79,7 +79,7 @@ namespace OpenWiki.Server.Entities
                 ModelState.AddModelError("NotPermitted", "User does not have necessary role");
                 return ValidationProblem(ModelState);
             }
-            if (wiki.URL != wikiPostPutModel.URL && await IsUrlTaken(wiki.URL)) {
+            if (wiki.URL != wikiPostPutModel.URL && await IsUrlTaken(wikiPostPutModel.URL)) {
                 ModelState.AddModelError("UrlDuplicate", "This URL is already taken.");
                 return ValidationProblem(ModelState);
             }
