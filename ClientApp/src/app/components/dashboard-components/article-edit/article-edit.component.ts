@@ -130,6 +130,7 @@ export class ArticleEditComponent implements OnInit {
 
   updateArticle(){
     this.submitted = true;
+    this.isArticleDataUpdated = false;
     if(!this.form.valid) {
       alert('Please fill all the required fields to create an article!')
       return false;
