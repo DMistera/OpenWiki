@@ -27,6 +27,11 @@ export class WikiEditComponent implements OnInit {
   isResetDone = false;
   // ======================
 
+  public isMainPartCollapsed = false;
+  public isArticlePartCollapsed = false;
+  public isMaintainersPartCollapsed = false;
+  
+
   articleList = [] as any;
 
   constructor(private dataService: DataService, private router: Router, private actRoute: ActivatedRoute, private formBuilder: FormBuilder){
@@ -94,7 +99,7 @@ export class WikiEditComponent implements OnInit {
           this.resetAfterTimeout();
         },
         err => {
-          // TODO error support
+          // TODO: error support
           // console.log(err);
           this.isSuccessful = false;
           this.isFailed = true;
@@ -104,8 +109,36 @@ export class WikiEditComponent implements OnInit {
     }
   }
 
-  deleteArticle(id:number){
+  deleteArticle(id:number){//TODO:
+    console.log("delete article: "+id)
+  }
 
+  deleteMaintainer(id:number){//TODO:
+    console.log("delete maintainer: "+id)
+  }
+
+
+  openMaintainerFormPage(){
+    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/maintainer-form"],{
+      state: {
+        wiki_url: this.wiki.url,
+        wiki_id: this.wiki.id,
+        return_url: '../',
+        return_name: "edit wiki form"//TODO: refactor
+      }
+    });
+  }
+
+  openArticleFormPage(){
+    console.log("wiki id "+this.wiki.id);
+    this.router.navigate(['dashboard/wiki/'+this.wiki_url+"/article-form"],{
+      state: {
+        wiki_url: this.wiki.url,
+        wiki_id: this.wiki.id,
+        return_url: 'dashboard/wiki/'+this.wiki_url,
+        return_name: "edit wiki form"
+      }
+    });
   }
 
   openArticleEditingPage(article_id: any){
@@ -113,7 +146,9 @@ export class WikiEditComponent implements OnInit {
       state: {
         wiki_url: this.wiki.url,
         wiki_id: this.wiki.id,
-        article_id: article_id
+        article_id: article_id,
+        return_url: '../../',
+        return_name: "edit wiki form"
       }
     });
   }
