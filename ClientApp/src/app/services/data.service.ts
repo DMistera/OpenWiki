@@ -19,6 +19,21 @@ export class DataService{
   constructor(private http: HttpClient) { }
 
 // ==================================================================================================
+  fetchUsers() {
+    return this.http.get<any>(`/api/User`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("FetchUsers status code:", data.status)
+      return data;
+    }));
+  }
+
+  fetchUserById(userId?: number) {
+    return this.http.get<any>(`/api/User/${userId}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("FetchUserById status code:", data.status)
+      return data;
+    }));
+  }
+
+// ==================================================================================================
   fetchWikis(userId?: number){
     if(userId != undefined){
       return this.http.get<any>(`/api/Wiki?ownerID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
