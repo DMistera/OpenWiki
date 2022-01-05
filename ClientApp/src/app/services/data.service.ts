@@ -120,18 +120,35 @@ export class DataService{
     }));
   }
 
-  fetchArticlesByWikiId(wikiId: number){
-    return this.http.get<any>(`/api/Article?wikiID=${wikiId}`, HTTP_OPTIONS).pipe(map(data => {
-      console.log("fetchArticlesbyWiki status code:", data.status);
-      return data;
-    }));
+  fetchArticlesByWikiId(wikiId: number, active?: boolean){
+    if(active!=null){
+      return this.http.get<any>(`/api/Article?wikiID=${wikiId}&active=${active}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesbyWiki status code:", data.status);
+        return data;
+      }));
+    }
+    else{
+      return this.http.get<any>(`/api/Article?wikiID=${wikiId}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesbyWiki status code:", data.status);
+        return data;
+      }));
+    }
+    
   }
 
-  fetchArticlesByUserId(userId: number){
-    return this.http.get<any>(`/api/Article?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
-      console.log("fetchArticlesbyUser status code:", data.status);
-      return data;
-    }));
+  fetchArticlesByUserId(userId: number, active?: boolean){
+    if(active!=null){
+      return this.http.get<any>(`/api/Article?userID=${userId}&active=${active}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesbyUser status code:", data.status);
+        return data;
+      }));
+    }else{
+      return this.http.get<any>(`/api/Article?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesbyUser status code:", data.status);
+        return data;
+      }));
+    }
+    
   }
 
   fetchArticleById(id: number){
@@ -165,6 +182,20 @@ export class DataService{
 
   editArticle(article: Article){
     return this.http.put<any>(`/api/Article/${article.id}`, JSON.stringify(article), HTTP_OPTIONS).pipe(map(data => {
+      console.log("updateArticle status code:", data.status);
+      return data;
+    }));
+  }
+
+  activateArticle(id: number){
+    return this.http.put<any>(`/api/Article/activate/${id}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("updateArticle status code:", data.status);
+      return data;
+    }));
+  }
+
+  deactivateArticle(id: number){
+    return this.http.put<any>(`/api/Article/deactivate/${id}`, HTTP_OPTIONS).pipe(map(data => {
       console.log("updateArticle status code:", data.status);
       return data;
     }));
