@@ -108,6 +108,23 @@ export class WikiEditComponent implements OnInit {
     }
   }
 
+  toggleArticle(article: Article){
+    if(article.active){
+      this.dataService.deactivateArticle(article.id).subscribe(
+        _ => {
+          this.articleList.filter((x:any) =>{if( article.id == x.id){x.active = false;}});
+        },
+      );
+    }
+    else{
+      this.dataService.activateArticle(article.id).subscribe(
+        _ => {
+          this.articleList.filter((x:any) =>{if( article.id == x.id){x.active = true;}});
+        },
+      );
+    }
+  }
+
   deleteArticle(id:number){
     //TODO: add confirm alert
     console.log("delete article: "+id)

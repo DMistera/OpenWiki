@@ -36,7 +36,7 @@ export class WikiComponent implements OnInit {
       this.wiki = new Wiki(data.body);
       console.log(data.body);
 
-      this.dataService.fetchArticlesByWikiId(this.wiki.id).subscribe((data: any) => {
+      this.dataService.fetchArticlesByWikiId(this.wiki.id, true).subscribe((data: any) => {
         console.log(data.body);
         for (let e in data.body){
           let tempArticle = new Article(data.body[e]);
