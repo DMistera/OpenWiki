@@ -11,6 +11,7 @@ export class Article {
   sections: Section[];
   creator: User;
   creationDate: string;
+  active: boolean
 
 
   constructor(object: any) {
@@ -19,6 +20,7 @@ export class Article {
     }
     this.title = object?.title || '';
     this.abstract = object?.abstract || '';
+    this.active = object?.active || false;
     if(object.wiki != null){
       this.wiki = new Wiki(object.wiki);
       this.wikiID = this.wiki.id;
