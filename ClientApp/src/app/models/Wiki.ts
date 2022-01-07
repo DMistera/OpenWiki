@@ -13,7 +13,11 @@ export class Wiki {
     this.url = object?.url || '';
     this.name = object?.name || '';
     this.description = object?.description || '';
-    this.owner = new User(object?.owner)|| {};
+    if(object.owner != null){
+      this.owner = new User(object.owner);
+    }else{
+      this.owner = new User({});
+    }
 
     this.maintainers = [];
     object?.maintainers?.forEach((obj:string) => { this.maintainers.push(new User(obj)); })||[];

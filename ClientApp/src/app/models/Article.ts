@@ -11,6 +11,7 @@ export class Article {
   sections: Section[];
   creator: User;
   creationDate: string;
+  modificationDate: string;
   active: boolean
 
 
@@ -33,6 +34,9 @@ export class Article {
     }
     if(object.creationDate != null){
       this.creationDate = object.creationDate
+    }
+    if(object.modificationDate != null){
+      this.modificationDate = object.modificationDate
     }
     this.sections = [];
     object?.sections?.forEach((obj:string) => { this.sections.push(new Section(obj)); })||[];
