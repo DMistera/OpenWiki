@@ -4,3 +4,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  .card:hover{
+    .card-img-top{
+      opacity: 0.85;
+    }
+  }
+  hr{
+    border-top: 1px solid gray;
+  }

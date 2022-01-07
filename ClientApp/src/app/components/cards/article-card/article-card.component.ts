@@ -20,7 +20,7 @@ export class ArticleCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openWikiPage(): void{
+  openArticlePage(): void{
     this.router.navigate(['wiki/'+this.wiki_url+'/article/'+this.id],{
       state: {
         wiki_url: this.wiki_url,
