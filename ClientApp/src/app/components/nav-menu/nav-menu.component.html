@@ -1,9 +1,12 @@
-<header class="mb-3">
+<header class="m-0">
   <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow"
+    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow pr-3"
   >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">OpenWiki</a>
+    <div class="container-fluid">
+      <a class="navbar-brand row d-flex" [routerLink]="['/']">
+        <div>OpenWiki</div>   
+        <div *ngIf="isDashboard()">-Dashboard</div>
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -86,18 +89,20 @@
 
 
   <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow bottom-nav" *ngIf="isLoggedIn&&isUserMenuExpanded">
-    <div class="container" *ngIf=isUserMenuExpanded>
-      <div class="container justify-content-start pl-0 " *ngIf=this.user?.userName>
-        <div class="badge badge-dark my-1">
-          <i class="fa fa-user p-0"></i>
+    <div class="container-fluid" *ngIf=isUserMenuExpanded>
+      <div class="row flex-sm-nowrap px-3">
+        <div class="container-fluid justify-content-start pl-0 flex-nowrap" *ngIf=this.user?.userName>
+          <div class="badge badge-dark my-1">
+            <i class="fa fa-user p-0"></i>
+          </div>
+          <div class="px-2">{{this.user?.userName}}</div>
         </div>
-        <div class="px-2">{{this.user?.userName}}</div>
-      </div>
-      <div class="container justify-content-start pl-0" *ngIf=this.user?.email>
-        <div class="badge badge-dark my-1">
-          <i class="fa fa-envelope p-0"></i>
+        <div class="container-fluid justify-content-start pl-0 flex-nowrap" *ngIf=this.user?.email>
+          <div class="badge badge-dark my-1">
+            <i class="fa fa-envelope p-0"></i>
+          </div>
+          <div class="px-2">{{this.user?.email}}</div>
         </div>
-        <div class="px-2">{{this.user?.email}}</div>
       </div>
       <div>
         <button class="btn-light border rounded px-3 mx-2" *ngIf=!isMenuExpanded (click)="logout()">
