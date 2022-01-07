@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
     setTimeout( ()=>{
       this.router.navigate([this.returnUrl]);
       console.log(this.returnUrl);
-    }, 4000)
+    }, 2000)
   }
 }
 
