@@ -1,41 +1,85 @@
 
-<div class="card container p-0 mb-3 mt-1">
-    <div class="row align-items-center mx-3">
-        <div class="col-sm-4 align-items-center">
+<div *ngIf="!isSideVersion">
+    <div class="card container-fluid p-0 m-0">
+        <div class="row align-items-center mx-3">
+            <div class="col-sm-3 align-items-center">
+                <img
+                    id="profile-img"
+                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                    class="profile-img-card mt-4 mb-4"
+                />
+            </div>
+            <div class="col-sm-9 mb-0 pb-0 container">
+                <div class=" row justify-content-start align-items-center">
+                    <div class="badge badge-dark my-1">
+                        <i class="fa fa-user p-0"></i>
+                    </div>
+                    <div class="px-2">{{this.user?.userName}}</div>
+                </div>
+                <div class="row justify-content-start align-items-center pl-0">
+                    <div class="badge badge-dark my-1">
+                        <i class="fa fa-envelope p-0"></i>
+                    </div>
+                    <div class="px-2">{{this.user?.email}}</div>
+                </div>
+            </div>
+        </div>
+        <hr class="mt-0"/>
+        <div class="mb-2">
+            <div class=" container row justify-content-start align-items-center mx-3 p-0">
+                <div class="badge badge-light my-1">
+                    <i class="fa fa-user-circle-o p-0"></i>
+                </div>
+                <div class="px-2">Owned Wiki: {{this.user?.ownedWikis?.length}}</div>
+            </div>
+            <div class=" container row justify-content-start align-items-center mx-3 p-0">
+                <div class="badge badge-light my-1">
+                    <i class="fa fa-wrench p-0"></i>
+                </div>
+                <div class="px-2">Maintained Wiki: {{this.user?.maintainedWikis?.length}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isSideVersion">
+    <div class="card container-fluid p-0 m-0 mt-1">
+        <div class="align-items-center bg-light m-0 p-0">
             <img
                 id="profile-img"
                 src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                class="profile-img-card mt-4 mb-4"
+                class="profile-img-card mt-2 mb-2"
             />
         </div>
-        <div class="col-sm-8 mb-0 pb-0 container">
-            <div class=" row justify-content-start align-items-center">
+
+        <hr class="mt-0"/>
+        <div class="mb-2">
+            <div class="container row justify-content-start align-items-center mx-3 p-0" *ngIf="this.user!=null">
                 <div class="badge badge-dark my-1">
                     <i class="fa fa-user p-0"></i>
                 </div>
                 <div class="px-2">{{this.user?.userName}}</div>
             </div>
-            <div class="row justify-content-start align-items-center pl-0">
+            <div class="container row justify-content-start align-items-center mx-3 p-0" *ngIf="this.user!=null">
                 <div class="badge badge-dark my-1">
                     <i class="fa fa-envelope p-0"></i>
                 </div>
                 <div class="px-2">{{this.user?.email}}</div>
             </div>
         </div>
-    </div>
-    <hr class="mt-0"/>
-    <div class="mb-2">
-        <div class=" container row justify-content-start align-items-center mx-3 p-0">
-            <div class="badge badge-light my-1">
-                <i class="fa fa-user-circle-o p-0"></i>
+        <hr class="mt-0"/>
+        <div class="mb-2">
+            <div class=" container row justify-content-start align-items-center mx-3 p-0">
+                <div class="badge badge-light my-1">
+                    <i class="fa fa-user-circle-o p-0"></i>
+                </div>
+                <div class="px-2">Owned Wiki: {{this.user?.ownedWikis?.length}}</div>
             </div>
-            <div class="px-2">Owned Wiki: {{this.user?.ownedWikis?.length}}</div>
-        </div>
-        <div class=" container row justify-content-start align-items-center mx-3 p-0">
-            <div class="badge badge-light my-1">
-                <i class="fa fa-wrench p-0"></i>
+            <div class=" container row justify-content-start align-items-center mx-3 p-0">
+                <div class="badge badge-light my-1">
+                    <i class="fa fa-wrench p-0"></i>
+                </div>
+                <div class="px-2">Maintained Wiki: {{this.user?.maintainedWikis?.length}}</div>
             </div>
-            <div class="px-2">Maintained Wiki: {{this.user?.maintainedWikis?.length}}</div>
         </div>
     </div>
 </div>
