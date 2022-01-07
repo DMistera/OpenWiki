@@ -2,10 +2,48 @@
   cursor: pointer;
 }
 
-.nav-link.active{
+.mainrow{
+  height: 100%;
+  min-height: 90vh;
+}
+.sidecontainer{
+  height: 100%;
+}
+
+ul.doted{
+  list-style-type: none;
+  li::before {
+    content: "•"; color: rgb(206, 206, 206);
+    display: inline-block; width: 1em;
+    margin-left: -1em;
+    margin-top: 0.4em;
+    text-align: center;
+    font-size: larger;
+  }
+}
+
+.i.fa{
   background-color: #343a40;
 }
 
+i.active{
+  color: #fc5c00;
+}
+
+.mobile{
+  .nav-item{
+    cursor: pointer;
+    .active{
+      background-color: #343a40;
+    }
+  }
+}
 .nav-item{
   cursor: pointer;
+}
+
+.sidemenu{
+  position: sticky;
+  display: block;
+  top: 6rem;
 }

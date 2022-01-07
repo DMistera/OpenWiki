@@ -1,13 +1,62 @@
+<div class="row mainrow">
+  <div class="col align-items-center border-right pt-2" *ngIf="!isSideMenu" [class.col-3]="!isSideMenu">
+    <!-- <div class="jumbotron align-items-center text-center px-0 py-4 m-0">
+      <h3>Dashboard</h3>
+    </div> -->
+    <app-user-summary [isSideVersion]=true></app-user-summary>
+    <div class="sidemenu my-2" *ngIf="isDashboardHome()">
+      <ul class="nav nav-pills nav-fill border-0 rounded-top flex-column">
+        <li class="nav-item container-fluid p-0 mt-2 col">
+          <div class="row p-0 m-0 container-fluid justify-content-between">
+            <div class="nav-link  text-left border-0" [routerLink]="['./wiki']" (click)="currentPage=2">
+              <i class="fa fa-object-group px-1 py-2 m-0" [class.active]="currentPage==2"></i>
+              Wikis
+            </div>
+            <div class="btn float-right" (click)="collapseWikiMenu.toggle()" [attr.aria-expanded]="!isWikiMenuCollapsed">
+              <div class="float-right align-items-center">
+                <i class="fa fa-sort-asc px-4 pt-2 pb-0 m-0" *ngIf="!isWikiMenuCollapsed"></i>
+                <i class="fa fa-sort-desc px-4 pt-0 pb-2 m-0" *ngIf="isWikiMenuCollapsed"></i>
+              </div>
+            </div>
+          </div>
+        </li>
+        <ul class="doted p-0 m-0 flex-column" #collapseWikiMenu="ngbCollapse" [(ngbCollapse)]="isWikiMenuCollapsed">
+          <li class="nav-item pl-3 mx-5 text-left row">
+              <div class="nav-link" [routerLink]="['./wiki']" [queryParams]="{group: 'owned'}" (click)="currentPage=5">
+                <i class="fa fa-user-circle-o px-1 py-2 m-0" [class.active]="currentPage==4"></i>
+                Owned
+              </div>
+          </li>
+          <li class="nav-item pl-3 mx-5 text-left row">
+            <div class="nav-link" [routerLink]="['./wiki']" [queryParams]="{group: 'maintained'}" (click)="currentPage=6">
+              <i class="fa fa-wrench px-1 py-2 m-0" [class.active]="currentPage==5"></i>
+              Maintained
+            </div>
+          </li>
+        </ul>
 
-<ul class="nav nav-pills nav-fill bg-light border rounded-top" *ngIf="isDashboardHome()">
-  <li class="nav-item">
-    <div class="nav-link" [routerLink]="['./']" [class.active]="currentPage==1" (click)="currentPage=1">Summary</div>
-  </li>
-  <li class="nav-item">
-    <div class="nav-link" [routerLink]="['./wiki']" [class.active]="currentPage==2" (click)="currentPage=2">Wiki</div>
-  </li>
-  <li class="nav-item">
-    <div class="nav-link" [routerLink]="['./article']" [class.active]="currentPage==3" (click)="currentPage=3">Article</div>
-  </li>
-</ul>
-<router-outlet></router-outlet>
+        <li class="nav-item my-2">
+          <div class="nav-link flex-fill text-left border-0" [routerLink]="['./article']" (click)="currentPage=3">
+            <i class="fa fa-file-text-o px-1 py-2 m-0" [class.active]="currentPage==3"></i>
+            Articles
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col py-2" [class.col-9]="!isSideMenu" [class.col-12]="isSideMenu">
+    <ul class="mobile nav nav-pills nav-fill border rounded-top flex-row" *ngIf="isSideMenu&&isDashboardHome()">
+      <li class="nav-item" *ngIf="isSideMenu">
+        <div class="nav-link" [routerLink]="['./summary']" [class.active]="currentPage==1" (click)="currentPage=1">Summary</div>
+      </li>
+      <li class="nav-item">
+        <div class="nav-link" [routerLink]="['./wiki']" [class.active]="currentPage==2||currentPage==4||currentPage==5" (click)="currentPage=2">Wiki</div>
+      </li>
+      <li class="nav-item">
+        <div class="nav-link" [routerLink]="['./article']" [class.active]="currentPage==3" (click)="currentPage=3">Article</div>
+      </li>
+    </ul>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,7 +1,9 @@
+import { BreakpointState } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, Event} from '@angular/router';
 import { Wiki } from '@app/models';
 import { AuthService, DataService } from '@app/services';
+import { ScreenService } from '@app/services/screen.service';
 
 
 
@@ -11,11 +13,25 @@ import { AuthService, DataService } from '@app/services';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  pages: any = {"/dashboard/summary": 1, "/dashboard": 1,"/dashboard/wiki":2,"/dashboard/article":3};
-  currentPage = 1;
+  pages: any = {
+    "/dashboard/summary": 1,
+    "/dashboard": 2,
+    "/dashboard/wiki":2,
+    "/dashboard/article":3,
+    "/dashboard/wiki?group=owned": 4,
+    "/dashboard/wiki?group=maintained": 5,
+  };
+  currentPage = 2;
   currentRoute: string;
 
-  constructor(private router: Router ) {
+  isSideMenu = false;
+  isWikiMenuCollapsed=true;
+
+  public isBelowXl: boolean;
+  public isBelowLg: boolean;
+  
+
+  constructor(private router: Router, private screenService: ScreenService) {
     this.currentRoute = "";
     this.router.events.subscribe((event: Event) =>{
       if (event instanceof NavigationEnd) {
@@ -26,6 +42,27 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.screenService.isBelowXl().subscribe((isBelowXl: BreakpointState) => {
+      this.isBelowXl = isBelowXl.matches;
+      if(!this.isBelowXl){
+        // console.log("false");
+        setTimeout(() => {
+          if(this.currentPage == 1){
+            this.router.navigate(["/dashboard"]);
+          }
+          this.isSideMenu = false;
+        }, 0.1);
+      }
+      else{
+        // console.log("true");
+        setTimeout(() => {
+          this.isSideMenu = true;
+        }, 0.1);
+      }
+    });
   }
 
   isDashboardHome(){
