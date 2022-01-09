@@ -44,7 +44,7 @@ const routes: Routes = [
   //dashboard
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'summary', pathMatch: 'full'},
+      { path: '', redirectTo: 'wiki', pathMatch: 'full'},
       { path: 'summary', component: UserSummaryComponent, canActivate: [AuthGuard]},
       { path: 'wiki', component: WikiListComponent, canActivate: [AuthGuard]},
       { path: 'wiki/:wikiURL', component: WikiEditComponent, canActivate: [AuthGuard]},
@@ -69,7 +69,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: "reload"})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

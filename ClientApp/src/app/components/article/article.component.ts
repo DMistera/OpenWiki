@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Article } from '@app/models';
-import { DataService } from '@app/services';
+import { AuthService, DataService } from '@app/services';
 
 @Component({
   selector: 'app-article',
@@ -14,7 +14,11 @@ export class ArticleComponent implements OnInit {
   article_id: number;
   url: string;
 
-  constructor(private dataService: DataService, private router: Router, private actRoute: ActivatedRoute) { 
+  isLoggedIn:boolean;
+
+
+
+  constructor(private authService: AuthService, private dataService: DataService, private router: Router, private actRoute: ActivatedRoute) { 
     this.wiki_url = this.router.getCurrentNavigation()?.extras?.state?.wiki_url;
     this.article_id = this.router.getCurrentNavigation()?.extras?.state?.article_id;
     // console.log(this.wiki_id+"  "+ this.article_id)
@@ -23,12 +27,30 @@ export class ArticleComponent implements OnInit {
       this.wiki_url = this.actRoute.snapshot.params.wikiURL;
     }
     this.url = "wiki/"+this.wiki_url+"/article/"+this.article_id
+    this.authService.user.subscribe(x => {
+      if(x==null){
+        this.isLoggedIn = false;
+      }else{
+        this.isLoggedIn = true;
+      }
+    });
   }
 
   ngOnInit(): void {
     this.dataService.fetchArticleById(this.article_id)?.subscribe((data: any) => {
       this.article = new Article(data.body);
       // console.log(data.body);
+    });
+  }
+
+  openArticleEditingPage(){
+    this.router.navigate(['dashboard/article/'+this.article.id],{
+      state: {
+        wiki_url: this.wiki_url,
+        article_id: this.article.id,
+        return_url: '../../../wiki/'+this.wiki_url+'/article/'+this.article.id,
+        return_name: "article"
+      }
     });
   }
 }

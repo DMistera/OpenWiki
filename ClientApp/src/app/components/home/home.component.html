@@ -1,4 +1,4 @@
-<header class="jumbotron">
+<header class="jumbotron mt-3">
   <h1>Hello, world!</h1>
 <p>Welcome to your new application, built with:</p>
 <ul>
@@ -7,12 +7,6 @@
   <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
 </ul>
 </header>
-<div class="container pb-4 px-0 d-inline-flex flex-row-reverse" *ngIf=isLoggedIn>
-  <button class="btn btn-success float-right" (click)="openWikiFormPage()">
-    <i class="fa fa-plus pr-2"></i>
-    Dodaj nową wiki
-  </button>
-</div>
 
 <div class="card-columns">
   <div *ngFor="let wiki of data">

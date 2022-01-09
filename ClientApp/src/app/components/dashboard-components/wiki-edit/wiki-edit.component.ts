@@ -13,8 +13,12 @@ import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 export class WikiEditComponent implements OnInit {
   wiki_id: number;
   wiki_url: string;
-  wiki: Wiki;
+  return_url: string;
+  return_name: string;
+
   form: FormGroup;
+
+  wiki: Wiki;
   wikiUpdated: Wiki;
   isLoadingData: boolean;
 
@@ -28,8 +32,8 @@ export class WikiEditComponent implements OnInit {
   // ======================
 
   public isMainPartCollapsed = false;
-  public isArticlePartCollapsed = false;
-  public isMaintainersPartCollapsed = false;
+  public isMaintainersPartCollapsed = true;
+  public isArticlePartCollapsed = true;
   
 
   articleList = [] as any;
@@ -37,13 +41,14 @@ export class WikiEditComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private actRoute: ActivatedRoute, private formBuilder: FormBuilder){
     this.wiki_url = this.router.getCurrentNavigation()?.extras?.state?.wiki_url;
     this.wiki_id = this.router.getCurrentNavigation()?.extras?.state?.wiki_id;
+    this.return_url = this.router.getCurrentNavigation()?.extras?.state?.return_url || "../";
+    this.return_name = this.router.getCurrentNavigation()?.extras?.state?.return_name || "dashboard";
+
     console.log(this.wiki_url);
   }
   
   ngOnInit(): void {
-    if(this.wiki_url==null){
-      this.wiki_url = this.actRoute.snapshot.params.wikiURL;
-    }
+    if(this.wiki_url==null){ this.wiki_url = this.actRoute.snapshot.params.wikiURL;}
 
     this.form = this.formBuilder.group({
       name: '',
@@ -104,6 +109,23 @@ export class WikiEditComponent implements OnInit {
           this.isFailed = true;
           this.resetAfterTimeout();
         }
+      );
+    }
+  }
+
+  toggleArticle(article: Article){
+    if(article.active){
+      this.dataService.deactivateArticle(article.id).subscribe(
+        _ => {
+          this.articleList.filter((x:any) =>{if( article.id == x.id){x.active = false;}});
+        },
+      );
+    }
+    else{
+      this.dataService.activateArticle(article.id).subscribe(
+        _ => {
+          this.articleList.filter((x:any) =>{if( article.id == x.id){x.active = true;}});
+        },
       );
     }
   }

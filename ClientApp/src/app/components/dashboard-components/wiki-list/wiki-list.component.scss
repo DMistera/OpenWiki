@@ -1,0 +1,32 @@
+.table{
+    overflow-y:overlay;
+
+    .centered{
+        vertical-align: middle;
+        text-align: center;
+        align-items: center;
+    }
+
+    tbody{
+        th{
+            vertical-align: middle;
+            text-align: center;
+            align-items: center;
+        }
+        td{
+            vertical-align: middle;
+        }
+    }
+}
+
+.sticker{
+    position: sticky;
+    top: 6rem;
+}
+
+.nav-item{
+    cursor: pointer;
+    .active{
+      background-color: lightslategray;
+    }
+  }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { User } from '@app/models';
 import { AuthService, DataService } from '@app/services';
 
@@ -8,6 +8,7 @@ import { AuthService, DataService } from '@app/services';
   styleUrls: ['./user-summary.component.scss']
 })
 export class UserSummaryComponent implements OnInit {
+  @Input() isSideVersion: boolean = false;
   user: User;
 
   constructor(private authService: AuthService) { }

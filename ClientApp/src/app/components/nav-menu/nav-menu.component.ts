@@ -95,7 +95,5 @@ export class NavMenuComponent {
         // console.log("logout error");
       }
     );
-  }
-
-  
+  } 
 }
