@@ -9,6 +9,7 @@ namespace OpenWiki.Server.Entities {
         public string URL { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime CreationDate { get; set; }
         public ApplicationUserDTO Owner { get; set; }
         public IEnumerable<ApplicationUserDTO> Maintainers { get; set; }
 
@@ -17,6 +18,7 @@ namespace OpenWiki.Server.Entities {
             URL = wiki.URL;
             Name = wiki.Name;
             Description = wiki.Description;
+            CreationDate = wiki.CreationDate;
             Owner = wiki.Owner != null ? new ApplicationUserDTO(wiki.Owner) : null;
             Maintainers = wiki.Maintainers?.Select(maintainer => new ApplicationUserDTO(maintainer));
         }

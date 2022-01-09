@@ -27,7 +27,7 @@ namespace OpenWiki.Server.Entities
 
         // GET: api/Article
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetArticles(long wikiID, long userID, bool active, string search)
+        public async Task<ActionResult<IEnumerable<ArticleDTO>>> GetArticles(long wikiID, long userID, bool active, string search, int lastModified)
         {
             var query = PrepareArticlesQuery();
             if(wikiID > 0) {
@@ -44,6 +44,9 @@ namespace OpenWiki.Server.Entities
                     o.Title.ToLower().Contains(search.ToLower()) ||
                     o.Abstract.ToLower().Contains(search.ToLower())
                 );
+            }
+            if (lastModified > 0) {
+                query = query.OrderByDescending(o => o.ModificationDate).Take(lastModified);
             }
             var queryResult = await query.ToListAsync();
             return Ok(queryResult.Select(article => new ArticleDTO(article)));

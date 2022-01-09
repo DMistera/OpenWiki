@@ -159,6 +159,7 @@ namespace OpenWiki.Server.Entities
             }
             ApplicationUser user = await userManager.GetUserAsync(User);
             wiki.Owner = user;
+            wiki.CreationDate = DateTime.Now;
             dbContext.Wikis.Add(wiki);
             await dbContext.SaveChangesAsync();
 

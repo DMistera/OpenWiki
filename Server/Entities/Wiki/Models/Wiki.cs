@@ -12,6 +12,7 @@ namespace OpenWiki.Server.Entities {
         public string URL { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime CreationDate { get; set; }
 
         [ForeignKey("OwnerId")]
         public ApplicationUser Owner { get; set; }
