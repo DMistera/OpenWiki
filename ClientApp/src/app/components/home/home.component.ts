@@ -10,7 +10,7 @@ import { AuthService, DataService} from '@app/services/';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit{
-  data = [] as  any;
+  data = [] as any;
 
   isLoggedIn: boolean;
   message = '';
@@ -36,6 +36,24 @@ export class HomeComponent implements OnInit{
         // console.log(data.body[e]);
       }
       this.isLoadingResults = false;
+    });
+  }
+
+  openWikisPage(){
+    this.router.navigate(['wiki'],{
+      state: {
+        return_url: '../',
+        return_name: "Home"
+      }
+    });
+  }
+
+  openArticlesPage(){
+    this.router.navigate(['article'],{
+      state: {
+        return_url: '../',
+        return_name: "Home"
+      }
     });
   }
 }

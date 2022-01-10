@@ -1,25 +1,19 @@
-<header class="jumbotron mt-3">
-  <h1>Hello, world!</h1>
-<p>Welcome to your new application, built with:</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-</header>
+<app-latest-carousel [count]=4 [elements]=data *ngIf="this.data.length>0"></app-latest-carousel>
 
-<div class="card-columns">
-  <div *ngFor="let wiki of data">
-    <app-wiki-card [title]=wiki.name [id]=wiki.id [description]=wiki.description [url]=wiki.url></app-wiki-card>
-  </div>
+<div class="jumbotron mt-3 py-4">
+  <h3>Welcome to OpenWiki brand new Wiki like application!</h3>
 </div>
 
-<!-- <div class="container">
-  <div class="row" id="ads">
-    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let wiki of data">
-      <div class="mb-3">
-        <app-wiki-card [title]=wiki.name [id]=wiki.id [description]=wiki.description [url]=wiki.url></app-wiki-card>
-      </div>
-    </div>
-  </div>
-</div> -->
+<div class="btn my-3 row d-block" (click)="openWikisPage()">
+  <hr class="mt-0"/>
+  <h2>Wikis</h2>
+  <hr class="mb-0"/>
+</div>
+<app-wikis [count]=4 [isListOnly]=true [isRandom]=true></app-wikis>
+
+<div class="btn my-3 row d-block" (click)="openArticlesPage()">
+  <hr class="mt-0"/>
+  <h2>Articles</h2>
+  <hr class="mb-0"/>
+</div>
+<app-articles [count]=4 [active]=true [isListOnly]=true [isRandom]=true></app-articles>
