@@ -34,6 +34,13 @@ export class DataService{
   }
 
 // ==================================================================================================
+  searchForWikis(querry: string){
+    return this.http.get<any>(`/api/Wiki?search=${querry}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("searchForWikis status code:", data.status);
+      return data;
+    }));
+  }
+
   fetchWikis(userId?: number){
     if(userId != undefined){
       return this.http.get<any>(`/api/Wiki?ownerID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
@@ -113,11 +120,49 @@ export class DataService{
   }
 
 // ==================================================================================================
-  fetchArticles(){
-    return this.http.get<any>(`/api/Article/`, HTTP_OPTIONS).pipe(map(data => {
-      console.log("fetchAllArticles status code:", data.status);
-      return data;
-    }));
+  searchForArticles(querry: string, active?: boolean){
+    if(active!=null){
+      return this.http.get<any>(`/api/Article?search=${querry}&active=${active}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("searchForArticlesByActive["+active+"] status code:", data.status);
+        return data;
+      }));
+    }
+    else{
+      return this.http.get<any>(`/api/Article?search=${querry}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("searchForArticles status code:", data.status);
+        return data;
+      }));
+    }
+  }
+
+  fetchArticles(active?: boolean){
+    if(active!=null){
+      return this.http.get<any>(`/api/Article?active=${active}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchArticlesByActive["+active+"] status code:", data.status);
+        return data;
+      }));
+    }
+    else{
+      return this.http.get<any>(`/api/Article`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchAllArticles status code:", data.status);
+        return data;
+      }));
+    }
+  }
+
+  fetchLastModifiedArticles(n:number, active?: boolean){
+    if(active!=null){
+      return this.http.get<any>(`/api/Article?lastModified=${n}&active=${active}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchLastModifiedArticlesByActive["+active+"] status code:", data.status);
+        return data;
+      }));
+    }
+    else{
+      return this.http.get<any>(`/api/Article?lastModified=${n}`, HTTP_OPTIONS).pipe(map(data => {
+        console.log("fetchLastModifiedArticles status code:", data.status);
+        return data;
+      }));
+    }
   }
 
   fetchArticlesByWikiId(wikiId: number, active?: boolean){
@@ -133,7 +178,6 @@ export class DataService{
         return data;
       }));
     }
-    
   }
 
   fetchArticlesByUserId(userId: number, active?: boolean){
@@ -148,7 +192,6 @@ export class DataService{
         return data;
       }));
     }
-    
   }
 
   fetchArticleById(id: number){
