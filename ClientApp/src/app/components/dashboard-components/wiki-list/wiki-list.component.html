@@ -80,31 +80,15 @@
       <tr class="sticky-top sticker">
         <th scope="col">#</th>
         <th scope="col">Title</th>
-        <!-- <th scope="col">Maintainers</th> -->
-        <!-- <th scope="col">Wiki</th> -->
-        <!-- <th scope="col">creationDate</th> -->
-        <!-- <th scope="col">modificationDate</th> -->
-        <!-- <th scope="col">Active</th> -->
+        <th scope="col">creationDate</th>
         <th scope="col">Options</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let wiki of filteredWikiList; index as i">
-        <!-- <th scope="row">{{i+1}}</th> -->
         <th scope="row">{{wiki.id}}</th> 
         <td>{{wiki.name}}</td>
-        <!-- <td class="centered">{{wiki.maintainers.length}}</td> -->
-        <!-- <td class="centered">{{wiki.wiki.name}}</td> -->
-
-        <!-- <td>{{formatDate(wiki.creationDate)}}</td> -->
-        <!-- <td>{{formatDate(wiki.modificationDate)}}</td> -->
-
-        <!-- <td class="centered">
-          <button class="btn px-4 py-3" (click)="$event.stopPropagation(); toggleArticle(wiki)" data-toggle="tooltip" data-placement="bottom" title="{{wiki.active}}">
-            <i class="fa fa-eye" style="color:orangered" *ngIf="wiki.active"></i>
-            <i class="fa fa-eye-slash" style="color:gray" *ngIf="!wiki.active"></i>
-          </button>
-        </td> -->
+        <td>{{formatDate(wiki.creationDate)}}</td>
         <td class="centered">
           <button class="btn px-4 py-3" (click)="$event.stopPropagation(); openWikiEditingPage(wiki);">
             <i class="fa fa-pencil"></i>
@@ -117,8 +101,6 @@
     </tbody>
   </table>
 </div>
-
-
 
 <!-- <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
