@@ -1,0 +1,16 @@
+<ngb-carousel class="rounded overflow-hidden mt-3" *ngIf="data&&data.length>0">
+  <ng-template ngbSlide *ngFor="let element of data">
+      <div class="picsum-img-wrapper rounded">
+        <img class="img-fluid rounded" [src]=imagedesktoph(element.id) alt="Random n slide" *ngIf="!isMobile&&isDesktopHorizontal">
+        <img class="img-fluid rounded" [src]=imagedesktopv(element.id) alt="Random n slide" *ngIf="!isMobile&&!isDesktopHorizontal">
+        <img class="img-fluid rounded" [src]=imagemobile(element.id) alt="Random n slide" *ngIf="isMobile&&!isDesktopHorizontal">
+      </div>
+      <div class="carousel-caption rounded pt-0">
+        <div class="btn container-fluid pt-3" (click)="openDetailsPage(element)">
+          <h3>
+            {{element.name}}
+          </h3>
+        </div>
+      </div>
+    </ng-template>
+</ngb-carousel>
