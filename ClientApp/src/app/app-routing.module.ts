@@ -23,6 +23,8 @@ import { ArticleEditComponent } from './components/dashboard-components/article-
 import { ArticleComponent } from './components/article/article.component';
 import { ArticleFormComponent } from './components/dashboard-components/article-form/article-form.component';
 import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
+import { ArticlesComponent } from './components/articles/articles.component';
+import { WikisComponent } from './components/wikis/wikis.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -59,17 +61,18 @@ const routes: Routes = [
   },
 
   { path: 'wiki/:wikiURL/article/:articleId', component: ArticleComponent },
-  { path: 'wiki/:wikiURL/article-form', component: ArticleFormComponent },
-
   { path: 'wiki/:wikiURL', component: WikiComponent },
-  { path: 'wiki-form', component: WikiFormComponent },
-
-  // { path: '404', component: NotFoundComponent },
-  // { path: '**', redirectTo: '404' }
+  { path: 'wiki', component: WikisComponent },
+  { path: 'article', component: ArticlesComponent },
+  { path: '404', component: NotFoundComponent },
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: "reload"})],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: "reload",
+    scrollPositionRestoration: "enabled"
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
