@@ -1,0 +1,39 @@
+<div class="py-3" *ngIf="!isListOnly">
+    <div class="container-fluid row flex-nowrap mx-0 px-3">
+        <form class="container-fluid p-0 m-0" [formGroup]="form" id="ngForm" (ngSubmit)="searchWiki()">
+        <div class="form-group row flex-nowrap">
+            <div class="card flex-row flex-nowrap flex-fill">
+            <input
+                type="text"
+                class="form-control flex-fill border-0 shadow-none"
+                placeholder="Wiki's name or description"
+                aria-label="Wiki's name or description"
+                aria-describedby="button-addon1"
+                name="name"
+                formControlName="name"
+            />
+            <button class="btn btn-transparent shadow-none" form="ngForm" type="button" *ngIf="isCleanButtonVisible" (click)=" clearSearchInput()">
+                <i class="fa fa-close px-4" style="color:red"></i>
+            </button>
+            </div>
+            <div class="input-group-append">
+                <button class="btn btn-outline-dark" form="ngForm" type="submit">
+                <i class="fa fa-search px-4"></i>
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="card-columns" *ngIf="!isLoadingWikis">
+        <div *ngIf="wikisFiltered.length>0">
+            <div *ngFor="let wiki of wikisFiltered">
+                <app-wiki-card [title]=wiki.name [id]=wiki.id [description]=wiki.description [url]=wiki.url></app-wiki-card>
+            </div>
+        </div>
+        <div *ngIf="wikisFiltered.length==0">
+            No wiki
+        </div>
+    </div>
+</div>
