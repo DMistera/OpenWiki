@@ -1,0 +1,37 @@
+<div class="py-3" *ngIf="!isListOnly">
+    <div class="container-fluid row flex-nowrap mx-0 px-3">
+        <form class="container-fluid p-0 m-0" [formGroup]="form" id="ngForm" (ngSubmit)="searchArticle()">
+            <div class="form-group row flex-nowrap">
+                <div class="card flex-row flex-nowrap flex-fill">
+                    <input
+                        type="text"
+                        class="form-control flex-fill border-0 shadow-none"
+                        placeholder="Article's name or description"
+                        aria-label="Article's name or description"
+                        aria-describedby="button-addon1"
+                        name="name"
+                        formControlName="name"
+                    />
+                    <button class="btn btn-transparent shadow-none" form="ngForm" type="button" *ngIf="isCleanButtonVisible" (click)=" clearSearchInput()">
+                        <i class="fa fa-close px-4" style="color:red"></i>
+                    </button>
+                </div>
+              <div class="input-group-append">
+                <button class="btn btn-outline-dark" form="ngForm" type="submit">
+                  <i class="fa fa-search px-4"></i>
+                </button>
+              </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card-columns" *ngIf="!isLoadingArticles">
+    <div *ngIf="articlesFiltered.length>0">
+        <div *ngFor="let article of articlesFiltered">
+            <app-article-card [title]=article.title [id]=article.id [description]=article.abstract [wiki_url]=this.article.wiki.url></app-article-card>
+        </div>
+    </div>
+    <div *ngIf="articlesFiltered.length==0">
+        No article
+    </div>
+</div>
