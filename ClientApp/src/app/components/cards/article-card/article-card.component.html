@@ -1,11 +1,13 @@
-<div class="card text-white bg-dark">
-  <img class="card-img-top" [src]=image(this.id) alt="Card image cap">
-  <div class="card-body pb-0">
-    <h5 class="card-title">{{this.title}}</h5>
-    <hr/>
+<div class="card" style="background-image: url(https://picsum.photos/id/{{this.id}}/800/700)">
+  <div class="card-body pb-2" style="margin-top:50%; background-color: rgba(0, 0, 0, 0.5); color: white;">
+    <h5 class="card-title mb-2">{{this.title}}</h5>
+    <hr class="my-1"/>
     <p class="card-text line-clamp">{{this.description || "Some quick example text to build on the card title and make up the bulk of the card's content."}}</p>
-  </div>
-  <div class="float-right">
-    <div class="btn btn-outline-success m-3" (click)="openArticlePage()" >See article</div>
+    <div class="container-fluid p-0 m-0 d-inline-flex flex-row justify-content-between">
+      <div> </div>
+      <button class="btn btn-outline-success float-right" (click)="openArticlePage()">
+        See article
+      </button>
+    </div>
   </div>
 </div>
