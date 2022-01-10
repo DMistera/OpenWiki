@@ -34,6 +34,9 @@ import { ArticleComponent } from './components/article/article.component';
 import { ArticleEditComponent } from './components/dashboard-components/article-edit/article-edit.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
+import { ArticlesComponent } from './components/articles/articles.component';
+import { WikisComponent } from './components/wikis/wikis.component';
+import { LatestCarouselComponent } from './components/latest-carousel/latest-carousel.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +63,10 @@ import { MaintainerFormComponent } from './components/dashboard-components/maint
     ArticleFormComponent,
     ArticleComponent,
     ArticleEditComponent,
-    MaintainerFormComponent
+    MaintainerFormComponent,
+    ArticlesComponent,
+    WikisComponent,
+    LatestCarouselComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
