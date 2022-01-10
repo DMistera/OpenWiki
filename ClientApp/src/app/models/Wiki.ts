@@ -5,6 +5,7 @@ export class Wiki {
   url: string;
   name: string;
   description: string;
+  creationDate: string;
   owner: User;
   maintainers: User[];
 
@@ -18,7 +19,9 @@ export class Wiki {
     }else{
       this.owner = new User({});
     }
-
+    if(object.creationDate != null){
+      this.creationDate = object.creationDate
+    }
     this.maintainers = [];
     object?.maintainers?.forEach((obj:string) => { this.maintainers.push(new User(obj)); })||[];
   }
