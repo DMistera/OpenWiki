@@ -22,12 +22,12 @@ import { ConfirmEmailDefaultComponent } from './components/auth/confirm-email-co
 import { ArticleEditComponent } from './components/dashboard-components/article-edit/article-edit.component';
 import { ArticleComponent } from './components/article/article.component';
 import { ArticleFormComponent } from './components/dashboard-components/article-form/article-form.component';
-import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { WikisComponent } from './components/wikis/wikis.component';
 import { CategoryListComponent } from './components/dashboard-components/category-list/category-list.component';
 import { CategoryFormComponent } from './components/dashboard-components/category-form/category-form.component';
 import { CategoryEditComponent } from './components/dashboard-components/category-edit/category-edit.component';
+import { MaintainerAssignmentComponent } from './components/dashboard-components/maintainer-assignment/maintainer-assignment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -55,7 +55,7 @@ const routes: Routes = [
       { path: 'wiki/:wikiURL', component: WikiEditComponent, canActivate: [AuthGuard]},
       { path: 'wiki-form', component: WikiFormComponent, canActivate: [AuthGuard]},
       { path: 'wiki/:wikiURL/article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
-      { path: 'wiki/:wikiURL/maintainer-form', component: MaintainerFormComponent, canActivate: [AuthGuard]},
+      { path: 'wiki/:wikiURL/maintainer-form', component: MaintainerAssignmentComponent, canActivate: [AuthGuard]},
 
       { path: 'wiki/:wikiURL/article-form', component: ArticleFormComponent, canActivate: [AuthGuard]},
       { path: 'article', component: ArticleListComponent, canActivate: [AuthGuard]},

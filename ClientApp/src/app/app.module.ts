@@ -33,13 +33,14 @@ import { ArticleFormComponent } from './components/dashboard-components/article-
 import { ArticleComponent } from './components/article/article.component';
 import { ArticleEditComponent } from './components/dashboard-components/article-edit/article-edit.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { WikisComponent } from './components/wikis/wikis.component';
 import { LatestCarouselComponent } from './components/latest-carousel/latest-carousel.component';
 import { CategoryListComponent } from './components/dashboard-components/category-list/category-list.component';
 import { CategoryFormComponent } from './components/dashboard-components/category-form/category-form.component';
 import { CategoryEditComponent } from './components/dashboard-components/category-edit/category-edit.component';
+import { MaintainerAssignmentComponent } from './components/dashboard-components/maintainer-assignment/maintainer-assignment.component';
+import { CategoryAssignmentComponent } from './components/dashboard-components/category-assignment/category-assignment.component';
 
 @NgModule({
   declarations: [
@@ -66,13 +67,14 @@ import { CategoryEditComponent } from './components/dashboard-components/categor
     ArticleFormComponent,
     ArticleComponent,
     ArticleEditComponent,
-    MaintainerFormComponent,
     ArticlesComponent,
     WikisComponent,
     LatestCarouselComponent,
     CategoryListComponent,
     CategoryFormComponent,
-    CategoryEditComponent
+    CategoryEditComponent,
+    MaintainerAssignmentComponent,
+    CategoryAssignmentComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
