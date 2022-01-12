@@ -17,6 +17,7 @@ namespace OpenWiki.Server.Entities
         public ApplicationUserDTO Modifier { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
+        public IEnumerable<CategoryDTO> Categories { get; set; }
 
         public ArticleDTO(Article article)
         {
@@ -34,6 +35,7 @@ namespace OpenWiki.Server.Entities
             Modifier = article.Modifier == null ? null : new ApplicationUserDTO(article.Modifier);
             CreationDate = article.CreationDate;
             ModificationDate = article.ModificationDate;
+            Categories = article.Categories?.Select(category => new CategoryDTO(category) { Articles = null });
         }
     }
 }

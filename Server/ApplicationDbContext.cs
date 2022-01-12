@@ -34,10 +34,16 @@ namespace OpenWiki.Server {
             builder.Entity<Wiki>()
                 .HasOne(wiki => wiki.Owner)
                 .WithMany(user => user.OwnedWikis);
+
+            builder.Entity<Category>()
+            .HasMany(category => category.Articles)
+            .WithMany(article => article.Categories)
+            .UsingEntity(j => j.ToTable("Category_Affiliation"));
         }
 
         public DbSet<Article> Articles { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Wiki> Wikis { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

@@ -197,7 +197,8 @@ namespace OpenWiki.Server.Entities
                 .Include(o => o.Wiki)
                 .Include(o => o.Sections)
                 .Include(o => o.Creator)
-                .Include(o => o.Modifier);
+                .Include(o => o.Modifier)
+                .Include(o => o.Categories);
         }
     }
 }
