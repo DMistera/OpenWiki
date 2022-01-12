@@ -37,6 +37,9 @@ import { MaintainerFormComponent } from './components/dashboard-components/maint
 import { ArticlesComponent } from './components/articles/articles.component';
 import { WikisComponent } from './components/wikis/wikis.component';
 import { LatestCarouselComponent } from './components/latest-carousel/latest-carousel.component';
+import { CategoryListComponent } from './components/dashboard-components/category-list/category-list.component';
+import { CategoryFormComponent } from './components/dashboard-components/category-form/category-form.component';
+import { CategoryEditComponent } from './components/dashboard-components/category-edit/category-edit.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import { LatestCarouselComponent } from './components/latest-carousel/latest-car
     MaintainerFormComponent,
     ArticlesComponent,
     WikisComponent,
-    LatestCarouselComponent
+    LatestCarouselComponent,
+    CategoryListComponent,
+    CategoryFormComponent,
+    CategoryEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

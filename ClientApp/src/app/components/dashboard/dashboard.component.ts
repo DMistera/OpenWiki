@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
     "/dashboard/article":3,
     "/dashboard/wiki?group=owned": 4,
     "/dashboard/wiki?group=maintained": 5,
+    "/dashboard/category": 6
   };
   currentPage = 2;
   currentRoute: string;

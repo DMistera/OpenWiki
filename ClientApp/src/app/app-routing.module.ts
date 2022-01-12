@@ -25,6 +25,9 @@ import { ArticleFormComponent } from './components/dashboard-components/article-
 import { MaintainerFormComponent } from './components/dashboard-components/maintainer-form/maintainer-form.component';
 import { ArticlesComponent } from './components/articles/articles.component';
 import { WikisComponent } from './components/wikis/wikis.component';
+import { CategoryListComponent } from './components/dashboard-components/category-list/category-list.component';
+import { CategoryFormComponent } from './components/dashboard-components/category-form/category-form.component';
+import { CategoryEditComponent } from './components/dashboard-components/category-edit/category-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -57,6 +60,10 @@ const routes: Routes = [
       { path: 'wiki/:wikiURL/article-form', component: ArticleFormComponent, canActivate: [AuthGuard]},
       { path: 'article', component: ArticleListComponent, canActivate: [AuthGuard]},
       { path: 'article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
+
+      { path: 'category-form', component: CategoryFormComponent, canActivate: [AuthGuard]},
+      { path: 'category', component: CategoryListComponent, canActivate: [AuthGuard]},
+      { path: 'category/:categoryId', component: CategoryEditComponent, canActivate: [AuthGuard]},
     ]
   },
 

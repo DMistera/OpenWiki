@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Article, Wiki } from '@app/models';
+import { Article, Category, Wiki } from '@app/models';
 import {map} from 'rxjs/operators';
 
 const HTTP_OPTIONS = {
@@ -209,7 +209,7 @@ export class DataService{
   }
 
   createArticle(article: Article){
-    console.log(JSON.stringify(article));
+    // console.log(JSON.stringify(article));
     return this.http.post<any>(`/api/Article`, JSON.stringify(article), HTTP_OPTIONS).pipe(map(data => {
       console.log("createArticle status code:", data.status);
       return data;
@@ -244,5 +244,38 @@ export class DataService{
     }));
   }
 // ==================================================================================================
+  fetchCategories(){
+    return this.http.get<any>(`/api/Category`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchAllCategories status code:", data.status);
+      return data;
+    }));
+  }
 
+  fetchCategory(id: number){
+    return this.http.get<any>(`/api/Category/${id}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchAllCategory status code:", data.status);
+      return data;
+    }));
+  }
+
+  createCategory(category: Category){
+    return this.http.post<any>(`/api/Category`, JSON.stringify(category), HTTP_OPTIONS).pipe(map(data => {
+      console.log("createCategory status code:", data.status);
+      return data;
+    }));
+  }
+
+  editCategory(category: Category){
+    return this.http.put<any>(`/api/Category/${category.id}`, JSON.stringify(category), HTTP_OPTIONS).pipe(map(data => {
+      console.log("updateCategory status code:", data.status);
+      return data;
+    }));
+  }
+
+  deleteCategory(id: number){
+    return this.http.delete<any>(`/api/Category/${id}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("deleteCategory status code:", data.status);
+      return data;
+    }));
+  }
 }

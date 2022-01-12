@@ -1,0 +1,100 @@
+<div class="container-fluid row flex-nowrap my-3 mx-0 px-3">
+    <form class="container-fluid p-0 m-0" [formGroup]="form" id="ngForm" (ngSubmit)="searchCategory()">
+      <div class="form-group row flex-nowrap">
+        <div class="card flex-row flex-nowrap flex-fill">
+          <input
+            type="text"
+            class="form-control flex-fill border-0 shadow-none"
+            placeholder="Category's name"
+            aria-label="Category's name"
+            aria-describedby="button-addon1"
+            name="name"
+            formControlName="name"
+          />
+          <button class="btn btn-transparent shadow-none" form="ngForm" type="button" *ngIf="isCleanButtonVisible" (click)=" clearSearchInput()">
+            <i class="fa fa-close px-4" style="color:red"></i>
+          </button>
+        </div>
+          <div class="input-group-append">
+            <button class="btn btn-outline-dark" form="ngForm" type="submit">
+              <i class="fa fa-search px-4"></i>
+            </button>
+          </div>
+          <!-- <button class="btn btn-success float-right ml-4 text-nowrap py-0" type="button" (click)="createTestCategory()">
+            <i class="fa fa-plus pr-2"></i>
+            Add new test category
+          </button> -->
+          <button class="btn btn-success float-right ml-4" type="button" (click)="openCategoryFormPage()">
+            <i class="fa fa-plus pr-2"></i>
+            Add new category
+          </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- mobile list -->
+  <div *ngIf="!isTableVersion">
+    <ul class="list-group mb-3 mt-1" *ngIf="!isLoadingData">
+  
+      
+  
+      <div *ngFor="let category of filteredCategoryList">
+        <li class="list-group-item d-flex justify-content-between align-items-center py-0 px-0">
+          <button class="btn flex-grow-1 d-flex flex-row align-items-center justify-content-between p-0"  (click)="openCategoryEditingPage(category);">
+            <div>
+              <i class="fa fa-folder pl-4 pr-3 py-4 m-0" data-toggle="tooltip" data-placement="bottom" title="Category"></i>
+              {{category.name}}
+            </div>
+            <i class="fa fa-pencil px-4"></i>
+          </button>
+          <!-- <button class="btn px-4 py-3" *ngIf="" (click)="$event.stopPropagation(); deleteCategory(category.id)">
+            <i class="fa fa-trash" style="color:red"></i>
+          </button> -->
+        </li>
+      </div>
+    </ul>
+  </div>
+  
+  <!-- desktop table-->
+  <div class="card table-responsive" style="overflow-x: unset;" *ngIf="isTableVersion">
+    <table class="table table-bordered mb-0">
+      <thead class="thead-dark">
+        <tr class="sticky-top sticker">
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">creationDate</th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of filteredCategoryList; index as i">
+          <th scope="row">{{category.id}}</th> 
+          <td>{{category.name}}</td>
+          <td>{{formatDate(category.creationDate)}}</td>
+          <td class="centered">
+            <button class="btn px-4 py-3" (click)="$event.stopPropagation(); openCategoryEditingPage(category);">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button class="btn px-4 py-3" (click)="$event.stopPropagation(); deleteCategory(category.id);">
+              <i class="fa fa-trash" style="color:red"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item disabled">
+        <a class="page-link">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav> -->
+  

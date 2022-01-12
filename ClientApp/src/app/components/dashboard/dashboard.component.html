@@ -22,23 +22,29 @@
         </li>
         <ul class="doted p-0 m-0 flex-column" #collapseWikiMenu="ngbCollapse" [(ngbCollapse)]="isWikiMenuCollapsed">
           <li class="nav-item pl-3 mx-5 text-left row">
-              <div class="nav-link" [routerLink]="['./wiki']" [queryParams]="{group: 'owned'}" (click)="currentPage=5">
+              <div class="nav-link" [routerLink]="['./wiki']" [queryParams]="{group: 'owned'}" (click)="currentPage=4">
                 <i class="fa fa-user-circle-o px-1 py-2 m-0" [class.active]="currentPage==4"></i>
                 Owned
               </div>
           </li>
           <li class="nav-item pl-3 mx-5 text-left row">
-            <div class="nav-link" [routerLink]="['./wiki']" [queryParams]="{group: 'maintained'}" (click)="currentPage=6">
+            <div class="nav-link" [routerLink]="['./wiki']" [queryParams]="{group: 'maintained'}" (click)="currentPage=5">
               <i class="fa fa-wrench px-1 py-2 m-0" [class.active]="currentPage==5"></i>
               Maintained
             </div>
           </li>
         </ul>
 
-        <li class="nav-item my-2">
+        <li class="nav-item m-0">
           <div class="nav-link flex-fill text-left border-0" [routerLink]="['./article']" (click)="currentPage=3">
             <i class="fa fa-file-text-o px-1 py-2 m-0" [class.active]="currentPage==3"></i>
             Articles
+          </div>
+        </li>
+        <li class="nav-item m-0">
+          <div class="nav-link flex-fill text-left border-0" [routerLink]="['./category']" (click)="currentPage=6">
+            <i class="fa fa-folder px-1 py-2 m-0" [class.active]="currentPage==6"></i>
+            Categories
           </div>
         </li>
       </ul>
@@ -51,10 +57,13 @@
         <div class="nav-link" [routerLink]="['./summary']" [class.active]="currentPage==1" (click)="currentPage=1">Summary</div>
       </li>
       <li class="nav-item">
-        <div class="nav-link" [routerLink]="['./wiki']" [class.active]="currentPage==2||currentPage==4||currentPage==5" (click)="currentPage=2">Wiki</div>
+        <div class="nav-link" [routerLink]="['./wiki']" [class.active]="currentPage==2||currentPage==4||currentPage==5" (click)="currentPage=2">Wikis</div>
       </li>
       <li class="nav-item">
-        <div class="nav-link" [routerLink]="['./article']" [class.active]="currentPage==3" (click)="currentPage=3">Article</div>
+        <div class="nav-link" [routerLink]="['./article']" [class.active]="currentPage==3" (click)="currentPage=3">Articles</div>
+      </li>
+      <li class="nav-item">
+        <div class="nav-link" [routerLink]="['./category']" [class.active]="currentPage==6" (click)="currentPage=6">Categories</div>
       </li>
     </ul>
     <router-outlet></router-outlet>
