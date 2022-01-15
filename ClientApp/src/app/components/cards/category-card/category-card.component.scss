@@ -1,0 +1,22 @@
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card:hover{
+    .card-img-top{
+      opacity: 0.85;
+    }
+  }
+  hr{
+    border-top: 1px solid gray;
+  }
+  
+  button{
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  button:hover{
+    background-color: #28a745;
+  }

@@ -1,0 +1,13 @@
+<div class="card" style="background-image: url(https://picsum.photos/id/{{this.id}}/800/700)">
+    <div class="card-body pb-2" style="margin-top:50%; background-color: rgba(0, 0, 0, 0.5); color: white;">
+      <h5 class="card-title mb-2">{{this.name}}</h5>
+      <hr class="my-1"/>
+      <p class="card-text line-clamp">{{this.description || "Some quick example text to build on the card title and make up the bulk of the card's content."}}</p>
+      <div class="container-fluid p-0 m-0 d-inline-flex flex-row justify-content-between">
+        <div> </div>
+        <button class="btn btn-outline-success float-right" (click)="openCategoryPage()">
+          See category
+        </button>
+      </div>
+    </div>
+  </div>

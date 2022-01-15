@@ -47,9 +47,9 @@
             </div>
             <i class="fa fa-pencil px-4"></i>
           </button>
-          <!-- <button class="btn px-4 py-3" *ngIf="" (click)="$event.stopPropagation(); deleteCategory(category.id)">
+          <button class="btn px-4 py-3" *ngIf="category.creator.id==user.id" (click)="$event.stopPropagation(); deleteCategory(category.id)">
             <i class="fa fa-trash" style="color:red"></i>
-          </button> -->
+          </button>
         </li>
       </div>
     </ul>
@@ -61,8 +61,11 @@
       <thead class="thead-dark">
         <tr class="sticky-top sticker">
           <th scope="col">#</th>
-          <th scope="col">Title</th>
+          <th scope="col">Name</th>
+          <th scope="col">Creator</th>
+          <th scope="col">Modifier</th>
           <th scope="col">creationDate</th>
+          <th scope="col">modificationDate</th>
           <th scope="col">Options</th>
         </tr>
       </thead>
@@ -70,7 +73,10 @@
         <tr *ngFor="let category of filteredCategoryList; index as i">
           <th scope="row">{{category.id}}</th> 
           <td>{{category.name}}</td>
+          <td>{{category.creator.userName}}</td>
+          <td>{{category.modifier?.userName||"-"}}</td>
           <td>{{formatDate(category.creationDate)}}</td>
+          <td>{{formatDate(category.modificationDate)}}</td>
           <td class="centered">
             <button class="btn px-4 py-3" (click)="$event.stopPropagation(); openCategoryEditingPage(category);">
               <i class="fa fa-pencil"></i>

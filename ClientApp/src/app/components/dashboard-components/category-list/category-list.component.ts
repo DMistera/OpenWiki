@@ -1,12 +1,12 @@
 import { BreakpointState } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category, User } from '@app/models';
 import { AuthService, DataService } from '@app/services';
+import { CategoryService } from '@app/services/category.service';
 import { ScreenService } from '@app/services/screen.service';
 
-type NewType = User;
 
 @Component({
   selector: 'app-category-list',
@@ -15,10 +15,10 @@ type NewType = User;
 })
 export class CategoryListComponent implements OnInit {
   isLoadingData: boolean;
-  user: NewType;
+  user: User;
   //==============================
-  filteredCategoryList: Category[];
-  categoryList: Category[];
+  filteredCategoryList: Category[] = [];
+  categoryList: Category[] = [];
   //==============================
   form: FormGroup;
   querry: string = "";
@@ -31,11 +31,18 @@ export class CategoryListComponent implements OnInit {
   constructor(
     private authService: AuthService, 
     private dataService: DataService, 
+    private categoryService: CategoryService,
     private router: Router, 
     private route: ActivatedRoute, 
     private screenService: ScreenService, 
     private formBuilder: FormBuilder
-  ){}
+  ){
+    // this.categoryService.categoryListObservable.subscribe(data => {
+    //   this.categoryList = data;
+    //   this.filteredCategoryList = data;
+    //   console.log("1categories: "+JSON.stringify(this.filteredCategoryList));
+    // });
+  }
 
   ngOnInit(): void {
     this.querry="";
@@ -44,13 +51,21 @@ export class CategoryListComponent implements OnInit {
 
     this.route.queryParams.subscribe(queryParams => {
       this.listType = queryParams['group']||'undefined';
-      console.log(this.listType);
+      // console.log(this.listType);
       this.pickList();
     });
 
     this.isLoadingData = true;
     this.authService.userInfo().subscribe(data => {
         this.user = new User(data.body);
+        this.dataService.fetchCategoriesByUserId(this.user.id).subscribe((data: any) => {
+          for (let e in data.body){
+            let tempArticle = new Category(data.body[e]);
+            this.categoryList.push(tempArticle);
+          }
+          this.filteredCategoryList = this.categoryList;
+          this.isLoadingData = false;
+        });
         this.pickList();
         this.isLoadingData = false;
     });
@@ -113,7 +128,7 @@ export class CategoryListComponent implements OnInit {
   openCategoryFormPage(){
     this.router.navigate(['dashboard/category-form'],{
       state: {
-        return_url: '../',
+        return_url: '../category',
         return_name: "dashboard"
       }
     });
