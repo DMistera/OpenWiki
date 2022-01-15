@@ -1,3 +1,4 @@
+import { Category } from ".";
 import { Section } from "./Section";
 import { User } from "./User";
 import { Wiki } from "./Wiki";
@@ -9,6 +10,7 @@ export class Article {
   wiki: Wiki;
   wikiID: number;
   sections: Section[];
+  categories: Category[];
   creator: User;
   creationDate: string;
   modificationDate: string;
@@ -40,6 +42,9 @@ export class Article {
     }
     this.sections = [];
     object?.sections?.forEach((obj:string) => { this.sections.push(new Section(obj)); })||[];
+
+    this.categories = [];
+    object?.categories?.forEach((obj:string) => { this.categories.push(new Category(obj)); })||[];
   }
 
 

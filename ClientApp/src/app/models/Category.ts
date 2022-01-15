@@ -1,9 +1,16 @@
+import { Article, User } from ".";
+
 export class Category {
     id: number;
     name: string;
     description: string;
     creationDate: string;
     modificationDate: string;
+
+    creator: User;
+    modifier: User;
+
+    articles: Article[];
   
   
     constructor(object: any) {
@@ -18,5 +25,14 @@ export class Category {
       if(object.modificationDate != null){
         this.modificationDate = object.modificationDate
       }
+      if(object.creator != null){
+        this.creator = new User(object.creator);
+      }
+      if(object.modifier != null){
+        this.modifier = new User(object.modifier);
+      }
+
+      this.articles = [];
+      object?.articles?.forEach((obj:string) => { this.articles.push(new Article(obj)); })||[];
     }
 }
