@@ -56,4 +56,13 @@ export class HomeComponent implements OnInit{
       }
     });
   }
+
+  openCategoriesPage(){
+    this.router.navigate(['category'],{
+      state: {
+        return_url: '../',
+        return_name: "Home"
+      }
+    });
+  }
 }
