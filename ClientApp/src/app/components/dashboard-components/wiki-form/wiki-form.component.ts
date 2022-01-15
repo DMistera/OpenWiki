@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Wiki } from '@app/models';
 import { AuthService, DataService } from '@app/services';
-import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-wiki-form',
@@ -29,7 +28,7 @@ export class WikiFormComponent implements OnInit {
 
   isMainPartCollapsed:boolean = false;
 
-  isWikiDataUpdated: boolean = true;
+  isWikiDataUpdated: boolean = false;
 
   constructor(private authService: AuthService, private dataService: DataService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 

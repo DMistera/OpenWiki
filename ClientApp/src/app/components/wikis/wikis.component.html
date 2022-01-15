@@ -25,15 +25,13 @@
         </form>
     </div>
 </div>
-<div class="container-fluid">
-    <div class="card-columns" *ngIf="!isLoadingWikis">
-        <div *ngIf="wikisFiltered.length>0">
-            <div *ngFor="let wiki of wikisFiltered">
-                <app-wiki-card [title]=wiki.name [id]=wiki.id [description]=wiki.description [url]=wiki.url></app-wiki-card>
-            </div>
+<div class="card-columns" *ngIf="!isLoadingWikis">
+    <div *ngIf="wikisFiltered.length>0">
+        <div *ngFor="let wiki of wikisFiltered">
+            <app-wiki-card [title]=wiki.name [id]=wiki.id [description]=wiki.description [url]=wiki.url></app-wiki-card>
         </div>
-        <div *ngIf="wikisFiltered.length==0">
-            No wiki
-        </div>
+    </div>
+    <div *ngIf="wikisFiltered.length==0">
+        No wiki
     </div>
 </div>

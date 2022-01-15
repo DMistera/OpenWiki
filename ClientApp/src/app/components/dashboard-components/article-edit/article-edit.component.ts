@@ -32,6 +32,11 @@ export class ArticleEditComponent implements OnInit {
   errorMessage = '';
   isResetDone = false;
   // ======================
+
+  public isMainPartCollapsed = false;
+  public isCategoriesPartCollapsed = true;
+
+  // ======================
   submitted = false;
   
 
@@ -62,8 +67,9 @@ export class ArticleEditComponent implements OnInit {
     });
 
     this.dataService.fetchArticleById(this.article_id).subscribe((data: any) => {
+      console.log(data.body);
       this.article = new Article(data.body);
-      this.articleUpdated = new Article({});
+      this.articleUpdated = new Article(data.body);
 
       this.articleUpdated.id = this.article.id;
       this.articleUpdated.title = this.article.title;
@@ -73,7 +79,6 @@ export class ArticleEditComponent implements OnInit {
         element.id = null;
         this.articleUpdated.sections.push(new Section(element));
       });
-      this.article = new Article(this.articleUpdated);
 
       this.form = this.formBuilder.group({
         title: [this.article.title, Validators.required],
@@ -178,5 +183,34 @@ export class ArticleEditComponent implements OnInit {
     this.isFailed = false;
     this.isResetDone = true;
     this.articleUpdated = new Article(this.article);
+  }
+
+  openCategoryAssignmentPage(){
+    if(this.wiki_url==null){
+      this.router.navigate(["dashboard/article/"+this.article_id+"/category-assignment"],{
+        state: {
+          article_id: this.article_id,
+          return_url: '../',
+          return_name: "edit article form"//TODO: refactor
+        }
+      });
+    }
+    else{
+      this.router.navigate(["dashboard/wiki/"+this.wiki_url+"/article/"+this.article_id+"/category-assignment"],{
+        state: {
+          article_id: this.article_id,
+          return_url: '../',
+          return_name: "edit article form"//TODO: refactor
+        }
+      });
+    }
+    
+  }
+
+  deleteCategoryAssignment(id: number){
+    console.log("delete category assignment: "+id)
+    this.dataService.removeArticleCategory(this.article.id, id).subscribe((data: any) => {
+      this.article.categories = this.article.categories.filter((x:any) => id != x.id);
+    });
   }
 }

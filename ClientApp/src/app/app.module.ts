@@ -41,6 +41,8 @@ import { CategoryFormComponent } from './components/dashboard-components/categor
 import { CategoryEditComponent } from './components/dashboard-components/category-edit/category-edit.component';
 import { MaintainerAssignmentComponent } from './components/dashboard-components/maintainer-assignment/maintainer-assignment.component';
 import { CategoryAssignmentComponent } from './components/dashboard-components/category-assignment/category-assignment.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { CategoryCardComponent } from './components/cards/category-card/category-card.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import { CategoryAssignmentComponent } from './components/dashboard-components/c
     CategoryFormComponent,
     CategoryEditComponent,
     MaintainerAssignmentComponent,
-    CategoryAssignmentComponent
+    CategoryAssignmentComponent,
+    CategoriesComponent,
+    CategoryCardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

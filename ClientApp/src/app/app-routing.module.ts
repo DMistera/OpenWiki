@@ -28,6 +28,8 @@ import { CategoryListComponent } from './components/dashboard-components/categor
 import { CategoryFormComponent } from './components/dashboard-components/category-form/category-form.component';
 import { CategoryEditComponent } from './components/dashboard-components/category-edit/category-edit.component';
 import { MaintainerAssignmentComponent } from './components/dashboard-components/maintainer-assignment/maintainer-assignment.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { CategoryAssignmentComponent } from './components/dashboard-components/category-assignment/category-assignment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -55,11 +57,13 @@ const routes: Routes = [
       { path: 'wiki/:wikiURL', component: WikiEditComponent, canActivate: [AuthGuard]},
       { path: 'wiki-form', component: WikiFormComponent, canActivate: [AuthGuard]},
       { path: 'wiki/:wikiURL/article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
+      { path: 'wiki/:wikiURL/article/:articleId/category-assignment', component: CategoryAssignmentComponent, canActivate: [AuthGuard]},
       { path: 'wiki/:wikiURL/maintainer-form', component: MaintainerAssignmentComponent, canActivate: [AuthGuard]},
 
       { path: 'wiki/:wikiURL/article-form', component: ArticleFormComponent, canActivate: [AuthGuard]},
       { path: 'article', component: ArticleListComponent, canActivate: [AuthGuard]},
       { path: 'article/:articleId', component: ArticleEditComponent, canActivate: [AuthGuard]},
+      { path: 'article/:articleId/category-assignment', component: CategoryAssignmentComponent, canActivate: [AuthGuard]},
 
       { path: 'category-form', component: CategoryFormComponent, canActivate: [AuthGuard]},
       { path: 'category', component: CategoryListComponent, canActivate: [AuthGuard]},
@@ -71,6 +75,7 @@ const routes: Routes = [
   { path: 'wiki/:wikiURL', component: WikiComponent },
   { path: 'wiki', component: WikisComponent },
   { path: 'article', component: ArticlesComponent },
+  { path: 'category', component: CategoriesComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' }
 ];

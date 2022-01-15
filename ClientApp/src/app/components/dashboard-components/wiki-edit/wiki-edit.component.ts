@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
 import { Article, Wiki } from '@app/models';
 import { AuthService, DataService } from '@app/services';
-import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-wiki-edit',
