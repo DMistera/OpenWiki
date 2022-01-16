@@ -6,21 +6,21 @@
 
 <div class="btn my-3 row d-block" (click)="openWikisPage()">
   <hr class="mt-0"/>
-  <h2>Wikis</h2>
+  <h2 class="px-2 text-md-left" >Wikis</h2>
   <hr class="mb-0"/>
 </div>
 <app-wikis [count]=4 [isListOnly]=true [isRandom]=true></app-wikis>
 
 <div class="btn my-3 row d-block" (click)="openArticlesPage()">
   <hr class="mt-0"/>
-  <h2>Articles</h2>
+  <h2 class="px-2 text-md-left">Articles</h2>
   <hr class="mb-0"/>
 </div>
 <app-articles [count]=4 [active]=true [isListOnly]=true [isRandom]=true></app-articles>
 
 <div class="btn my-3 row d-block" (click)="openCategoriesPage()">
   <hr class="mt-0"/>
-  <h2>Categories</h2>
+  <h2 class="px-2 text-md-left">Categories</h2>
   <hr class="mb-0"/>
 </div>
 <app-categories [count]=4 [isListOnly]=true [isRandom]=true></app-categories>
