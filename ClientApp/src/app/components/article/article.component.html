@@ -1,51 +1,108 @@
-<div class="container-fluid pb-4 pt-3 px-0 pt-0 d-inline-flex flex-row justify-content-between">
-    <button class="btn btn-light float-right" [routerLink]="['../../']">
-        <i class="fa fa-arrow-left pr-2"></i>
-        Return to wiki
-    </button>
-    <button class="btn btn-outline-dark float-right" *ngIf=isLoggedIn (click)="openArticleEditingPage()">
-        <i class="fa fa-pencil pr-2" ></i>
-        Edit article
-    </button>
-</div>
-
-<body class="container-fluid px-0 mb-4" *ngIf="article!=null" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
-    <div class="jumbotron py-4 px-0">
-        <h1 class="p-3">
-            Article:
-            {{article.title}}
-        </h1>
-        <hr/>
-        <div class="container-fluid px-3">
-            {{article.abstract}}
-        </div>
+<body class="container-fluid px-0">
+    <div class="container-fluid pb-4 pt-3 px-0 pt-0 d-inline-flex flex-row justify-content-between">
+        <button class="btn btn-light float-right" [routerLink]="['../../']">
+            <i class="fa fa-arrow-left pr-2"></i>
+            Return to wiki
+        </button>
+        <button class="btn btn-outline-dark float-right" *ngIf=isLoggedIn (click)="openArticleEditingPage()">
+            <i class="fa fa-pencil pr-2" ></i>
+            Edit article
+        </button>
     </div>
-    <div class="row">
-        <!-- TODO: scroll spy -->
-        <!-- <nav class="col-sm-2" id="myScrollspy">
-            <ul class="nav nav-pills nav-stacked" *ngFor="let section of article.sections; let i=index">
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{url}}#section{{i}}">
-                        Section {{i}}
-                    </a>
-                </li>
-            </ul> 
-        </nav> -->
-        <!-- <div class="col-sm-10"> -->
-            <div class="container-fluid">
-                <div *ngFor="let section of article.sections; let i=index">
-                    <div id="section{{i}}">
-                        <h5>
-                            {{section.title}} {{i}}
-                        </h5>
-                        <p>
-                            {{section.content}}
-                        </p>
-                        <hr/>
+    
+    <div class="container-fluid px-0 mb-4" *ngIf="article!=null">
+        <div class="jumbotron py-0 mb-0 px-0" style="background:transparent !important">
+            <div class="card rounded">
+              <img class="img-fluid rounded p-0 m-0" [src]=imagedesktop(article.id) alt="Card image cap" *ngIf="!isMobile&&!isLoadingArticleData">
+              <img class="img-fluid rounded p-0 m-0" [src]=imagemobile(article.id) alt="Card image cap" *ngIf="isMobile&&!isLoadingArticleData">
+            </div>
+            <div class="container-fluid  p-3">
+              <div class="row m-0 p-0 align-items-center text-center">
+                <i class="fa fa-file-text-o fa-lg pr-4" ></i>
+                <h4 class="m-0 mr-3">
+                  {{article.title}}
+                </h4>
+              </div>
+            </div>
+        </div>
+          
+        <div class="container-fluid card py-4 mt-2">
+        {{article.abstract}}
+        </div>
+
+        <div class="row mt-4" id="scrollParent" style="background-color: transparent;">
+            <!-- TODO: scroll spy -->
+            <nav class="col-sm-3 col-md-2" [class.sticker]="isSideMenu" [class.sticky-top]="isSideMenu" *ngIf="isSideMenu">
+                <div class="card p-2">
+                    Sections
+                </div>
+                <ul class="nav nav-pills nav-stacked" *ngFor="let section of article.sections; let i=index">
+                    <li class="nav-item ml-3" [class.active]="currentSection==='section'+i">
+                        <a class="nav-link" (click)="scrollTo('section'+i)">
+                            Section {{i}}
+                        </a>
+                    </li>
+                </ul> 
+                <div class="card p-2 mt-4 ">
+                    <div class="row m-0 p-0 align-items-center text-center">
+                        <div>
+                            Categories
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav nav-pills nav-stacked" *ngFor="let category of article.categories; let i=index">
+                    <li class="nav-item ml-3">
+                        <a class="nav-link" (click)="openCategoryPage(category.id)">
+                             {{category.name}}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- <nav class="col-sm-3 col-md-2 justify-content-center" [class.sticker]="isSideMenu" [class.sticky-top]="isSideMenu" *ngIf="!isSideMenu">
+                <ul class="nav" *ngFor="let section of article.sections; let i=index">
+                    <li class="nav-item" [class.active]="currentSection=='section'+i">
+                        <a class="nav-link" (click)="scrollTo('section'+i)">
+                            Sectionx {{i}}
+                        </a>
+                    </li>
+                </ul> 
+            </nav> -->
+            <div class="col-sm-3 col-md-2 justify-content-center mb-2" *ngIf="!isSideMenu">
+                <div class="card p-2">
+                    <div class="row m-0 p-0 align-items-center text-center">
+                        <i class="fa fa-folder-o fa-lg pr-4" ></i>
+                        <div>
+                            Categories
+                        </div>
+                    </div>
+                </div>
+                <div class="row container-fluid">
+                    <ul class="nav nav-pills" *ngFor="let category of article.categories; let i=index">
+                        <li class="nav-item ml-3">
+                            <a class="nav-link" (click)="openCategoryPage(category.id)">
+                                 {{category.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-10">
+                <div class="container-fluid px-0 position-relative">
+                    <!--  -->
+                    <div *ngFor="let section of article.sections; let i=index">
+                        <div id="section{{i}}">
+                            <h5>
+                                {{section.title}} {{i}}
+                            </h5>
+                            <p>
+                                {{section.content}}
+                            </p>
+                            <hr/>
+                        </div>
                     </div>
                 </div>
             </div>
-        <!-- </div> -->
+        </div>
     </div>
 </body>
 

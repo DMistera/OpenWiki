@@ -1,8 +1,9 @@
+import { BreakpointState } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Article } from '@app/models';
 import { AuthService, DataService } from '@app/services';
-
+import { ScreenService } from '@app/services/screen.service';
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
@@ -16,9 +17,21 @@ export class ArticleComponent implements OnInit {
 
   isLoggedIn:boolean;
 
+  currentSection = 'section0';
+
+  isBelowSm: boolean;
+  isSideMenu: boolean;
+
+  isMobile = false;
+  isBelowMd: boolean;
+
+  isLoadingArticleData: boolean;
+
+  imagedesktop = (n:any)=>`https://picsum.photos/id/${n}/1350/200`;
+  imagemobile = (n:any)=>`https://picsum.photos/id/${n}/900/300`;
 
 
-  constructor(private authService: AuthService, private dataService: DataService, private router: Router, private actRoute: ActivatedRoute) { 
+  constructor(private authService: AuthService, private dataService: DataService, private router: Router, private actRoute: ActivatedRoute, private screenService: ScreenService) { 
     this.wiki_url = this.router.getCurrentNavigation()?.extras?.state?.wiki_url;
     this.article_id = this.router.getCurrentNavigation()?.extras?.state?.article_id;
     // console.log(this.wiki_id+"  "+ this.article_id)
@@ -43,6 +56,39 @@ export class ArticleComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.screenService.isBelowMd().subscribe((isBelowMd: BreakpointState) => {
+      this.isBelowMd = isBelowMd.matches;
+      if(!this.isBelowMd){
+        // console.log("false");
+        setTimeout(() => {
+          this.isMobile = false;
+        }, 0.1);
+      }
+      else{
+        // console.log("true");
+        setTimeout(() => {
+          this.isMobile = true;
+        }, 0.1);
+      }
+    });
+    this.screenService.isBelowSm().subscribe((isBelowSm: BreakpointState) => {
+      this.isBelowSm = isBelowSm.matches;
+      if(this.isBelowSm){
+        // console.log("false");
+        setTimeout(() => {
+          this.isSideMenu = false;
+        }, 0.1);
+      }
+      else{
+        // console.log("true");
+        setTimeout(() => {
+          this.isSideMenu = true;
+        }, 0.1);
+      }
+    });
+  }
+
   openArticleEditingPage(){
     this.router.navigate(['dashboard/article/'+this.article.id],{
       state: {
@@ -52,5 +98,26 @@ export class ArticleComponent implements OnInit {
         return_name: "article"
       }
     });
+  }
+
+  openCategoryPage(category_id: number){
+    this.router.navigate(['category/'+category_id],{
+      state: {
+        wiki_url: this.wiki_url,
+        article_id: this.article.id,
+        return_url: '../../../wiki/'+this.wiki_url+'/article/'+this.article.id,
+        return_name: "article"
+      }
+    });
+  }
+
+  onSectionChange(sectionId: any) {
+    this.currentSection = sectionId;
+    console.log(sectionId);
+  }
+
+  scrollTo(section: any) {
+    this.onSectionChange(section);
+    document?.querySelector('#' + section)?.scrollIntoView({block: 'center', behavior:"smooth"});
   }
 }

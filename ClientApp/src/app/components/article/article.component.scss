@@ -9,3 +9,35 @@ ul.nav-pills {
 div.col-8 div {
     height: 500px;
 }
+
+.nav-item{
+    cursor: pointer;
+    .nav-link{
+        color: black;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .nav-link:hover{
+        color: orangered;
+    }
+}
+
+.nav-item.active{
+    background-color: white;
+    // padding: auto;
+    border-bottom: 0.15rem solid orangered;
+
+    .nav-link{
+        color: orange;
+    }
+    .nav-link:hover{
+        color: orangered;
+    }
+}
+
+.sticker{
+    height: 100%;
+    position: sticky;
+    display: block;
+    top: 6rem;
+}
