@@ -30,6 +30,7 @@ import { CategoryEditComponent } from './components/dashboard-components/categor
 import { MaintainerAssignmentComponent } from './components/dashboard-components/maintainer-assignment/maintainer-assignment.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CategoryAssignmentComponent } from './components/dashboard-components/category-assignment/category-assignment.component';
+import { CategoryComponent } from './components/category/category.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -76,6 +77,7 @@ const routes: Routes = [
   { path: 'wiki', component: WikisComponent },
   { path: 'article', component: ArticlesComponent },
   { path: 'category', component: CategoriesComponent },
+  { path: 'category/:categoryId', component: CategoryComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' }
 ];

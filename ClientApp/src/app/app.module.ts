@@ -43,6 +43,7 @@ import { MaintainerAssignmentComponent } from './components/dashboard-components
 import { CategoryAssignmentComponent } from './components/dashboard-components/category-assignment/category-assignment.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { CategoryCardComponent } from './components/cards/category-card/category-card.component';
+import { CategoryComponent } from './components/category/category.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { CategoryCardComponent } from './components/cards/category-card/category
     MaintainerAssignmentComponent,
     CategoryAssignmentComponent,
     CategoriesComponent,
-    CategoryCardComponent
+    CategoryCardComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
