@@ -243,10 +243,54 @@ export class DataService{
       return data;
     }));
   }
+
+  addArticleCategory(articleId:number, categoryId:number){
+    let body = {
+      "articleId": articleId,
+      "categoryId": categoryId
+    };
+    console.log(body);
+    return this.http.put<any>('/api/Category/affiliation', JSON.stringify(body), HTTP_OPTIONS).pipe(map(data => {
+      console.log("addArticleCategory status code:", data.status);
+      return data;
+    }));
+  }
+
+  removeArticleCategory(articleId:number, categoryId:number){
+    const body = {
+      "articleId": articleId,
+      "categoryId": categoryId
+    };
+    const tempOptions = {
+      headers: HTTP_OPTIONS.headers,
+      observe: HTTP_OPTIONS.observe,
+      body: JSON.stringify(body)
+    };
+    
+    return this.http.delete<any>('/api/Category/affiliation', tempOptions).pipe(map(data => {
+      console.log("removeArticleCategory status code:", data.status);
+      return data;
+    }));
+  }
 // ==================================================================================================
+  searchForCategories(querry: string){
+    return this.http.get<any>(`/api/Category?search=${querry}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("searchForCategories status code:", data.status);
+      return data;
+    }));
+
+  }
+
   fetchCategories(){
     return this.http.get<any>(`/api/Category`, HTTP_OPTIONS).pipe(map(data => {
       console.log("fetchAllCategories status code:", data.status);
+      return data;
+    }));
+  }
+
+  fetchCategoriesByUserId(userId: number){
+    return this.http.get<any>(`/api/Category?userID=${userId}`, HTTP_OPTIONS).pipe(map(data => {
+      console.log("fetchCategoriesByUserId status code:", data.status);
       return data;
     }));
   }
